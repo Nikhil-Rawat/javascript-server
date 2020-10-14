@@ -18,8 +18,7 @@ Useful plug-in's of VS CODE:
 
     3. Prettier- It’s a compelling plugin that allows you to utilize the Prettier package. It’s a robust opinionated code formatter that allows developers to format their codes in a structured way. Prettier works together with JavaScript, TypeScript, HTML, CSS, Markdown, GraphQL, and other modern tools and allows you to properly format your code.
 
-    4. The JavaScript (ES6) code snippets- is a handy plugin that provides some very useful snippets of JavaScript codes for the idle developer. It binds standard JavaScript calls into simple hotkeys. Once you get the hang of it, it can increase your productivity dramatically.
-
+    4. The JavaScript (ES6) code snippets- is a handy plugin that provides some very useful snippets of JavaScript codes for the idle developer. It binds standard JavaScript calls into simple hotkeys. Once you get the hang of it, it can increase your productivity dramatically
     5. Debugger for Chrome- It is released by Microsoft, lets you debug your source files directly in Visual Studio Code.
 
     6. ESLint- The ESLint plugin integrates ESLint into Visual Studio Code. If you’re not familiar with it, ESLint is a tool that statically analyzes your code to quickly find problems. Most problems ESLint finds can be automatically fixed. ESLint fixes are syntax-aware, and so you won’t experience errors introduced by traditional find-and-replace algorithms. And on top of that, ESLint is highly customizable.
