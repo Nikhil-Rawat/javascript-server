@@ -1,0 +1,25 @@
+{
+  "name": "javascript-server",
+  "version": "1.0.0",
+  "description": "trainee",
+  "main": "index.js",
+  "scripts": {
+    "extra": "babel-node extra",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nikhil-Rawat/javascript-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nikhil-Rawat/javascript-server/issues"
+  },
+  "homepage": "https://github.com/Nikhil-Rawat/javascript-server#readme",
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/node": "^7.12.1",
+    "@babel/preset-env": "^7.12.1"
+  }
+}
