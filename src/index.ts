@@ -3,4 +3,4 @@ import { config } from './config';
 
 const server = new Server({port: 9000});
 
-server.bootstrap().run()
+server.bootstrap().run();
