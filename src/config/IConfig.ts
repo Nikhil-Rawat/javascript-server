@@ -1,4 +1,4 @@
 interface IConfig {
-    port?: string;
+    port?: number;
     node_env?: string;
 }
