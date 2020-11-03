@@ -1,5 +1,5 @@
 export default function equilateral_triangle(rows){
-    console.log("Equilateral triangle:",rows)
+    console.log(`Equilateral triangle: ${rows}`)
     let s = "";
     let j = rows;
     for(let i =1;i<=rows;i++){

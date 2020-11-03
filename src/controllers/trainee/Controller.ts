@@ -1,18 +1,14 @@
-import { Request, Response, NextFunction } from 'express';
-
+import { Response, Request, NextFunction } from 'express';
 class TraineeController {
-
     static instance: TraineeController;
 
     static getInstance() {
         if (TraineeController.instance) {
             return TraineeController.instance;
         }
-
         TraineeController.instance = new TraineeController();
-        return TraineeController.instance;
+            return TraineeController.instance;
     }
-
     get(req: Request, res: Response, next: NextFunction) {
         try {
             console.log('inside get method');
@@ -21,16 +17,14 @@ class TraineeController {
                 message: 'trainees fethed successfully',
                 data: [
                     {
-                        name: 'Aviral Swarnkar',
-                        address: 'Noida'
+                        name: 'Nikhil Rawat',
+                        address: 'Rudrapryag'
                     }
                 ],
                 status: 'success'
             });
         }
         catch (err) {
-            // TO DO: will ship below logic in next assignment
-
             return next({
                 error: 'bad request',
                 message: err,
@@ -46,15 +40,13 @@ class TraineeController {
             res.status(200).send({
                 message: 'trainees created successfully',
                 data: {
-                        name: 'Mudit Rajput',
-                        address: 'Noida'
+                        name: 'Rahul Bisht',
+                        address: 'Delhi'
                     },
                 status: 'success'
             });
         }
         catch (err) {
-            // TO DO: will ship below logic in next assignment
-
             return next({
                 error: 'bad request',
                 message: err,
@@ -70,15 +62,13 @@ class TraineeController {
             res.status(200).send({
                 message: 'trainees updated successfully',
                 data: {
-                        name: 'Mudit Rajput',
-                        address: 'Bijnor'
+                        name: 'Rahul Bisht',
+                        address: 'Kamoun'
                     },
                 status: 'success'
             });
         }
         catch (err) {
-            // TO DO: will ship below logic in next assignment
-
             return next({
                 error: 'bad request',
                 message: err,
@@ -98,8 +88,6 @@ class TraineeController {
             });
         }
         catch (err) {
-            // TO DO: will ship below logic in next assignment
-
             return next({
                 error: 'bad request',
                 message: err,

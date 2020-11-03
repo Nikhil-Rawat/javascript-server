@@ -1,5 +1,5 @@
 export default function diamond(rows){
-    console.log("diamond pattern:",rows)
+    console.log(`diamond pattern: ${rows}`)
     let s = "";
     let j = rows;
     for(let i =1;i<=rows;i++){
