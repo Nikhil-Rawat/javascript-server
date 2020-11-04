@@ -1,39 +1,49 @@
 import * as express from 'express';
-import * as bodyparser from 'body-parser';
-import { notFoundRoute, errorHandler } from './libs/routes';
+import * as bodyParser from 'body-parser';
+import { errorHandler, notFoundRoute } from './libs/routes';
 import routes from './router';
 
-class Server  {
+class Server {
     private app: any;
-    constructor (private config: IConfig) {
+    constructor(private configuration: IConfig) {
         this.app = express();
     }
-    bootstrap() {
-        this.setupRoutes();
+
+    public bootstrap() {
         this.initBodyParser();
-        return this;
+        this.setupRoutes();
+        return this.app;
     }
-    setupRoutes() {
-        this.app.use('/health-check', (req, res, next) => {
+
+    public setupRoutes() {
+        const { app } = this;
+
+        app.use('/health-check', (req, res) => {
             res.send('I am OK');
         });
-        this.app.use('/api', routes);
-        this.app.use(notFoundRoute);
-        this.app.use(errorHandler);
+        app.use('/api', routes);
+
+        app.use(notFoundRoute);
+
+        app.use(errorHandler);
+
     }
+
     public initBodyParser() {
-        this.app.use(bodyparser.json({ type: 'application/*+json' }));
+        const { app } = this;
+        app.use(bodyParser.json());
     }
+
     run() {
-        const { app, config: { port } } = this;
-        app.listen(port, (err) => {
+        const { app, configuration: { port } } = this;
+        app.listen(port, err => {
             if (err) {
-                console.log(err);
+                console.log(`Error: app failed  ${err}`);
             }
             console.log(`app is running on port ${port}`);
         });
-    }
+        return this;
     }
 
-
+}
 export default Server;

@@ -1,7 +1,4 @@
-
 import validateEmail from "./helpers"
-
-
 export default function validateUsers(arr){
     let validCount = 0;
     let invalidCount = 0;
@@ -29,8 +26,8 @@ export default function validateUsers(arr){
         }
         
     })
-    console.log("validUser:" ,validCount,"\n",emailValid);
-    console.log("invalidUser:",invalidCount,"\n",emailInvalid);
+    console.log(`Valid mails: ${validCount} \n${emailValid}`)
+    console.log(`Invalid mails: ${invalidCount} \n${emailInvalid}`)
 
 }
 

@@ -1,5 +1,3 @@
-
-
 export const permissions: IPermissions = {
     'getUsers':
     {

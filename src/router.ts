@@ -1,5 +1,5 @@
-import { traineeRouter } from './controllers';
 import { Router } from 'express';
+import { traineeRouter } from './controllers';
 
 const mainRouter = Router();
 

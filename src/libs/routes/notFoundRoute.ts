@@ -1,7 +1,8 @@
-import { Response, Request, NextFunction } from 'express';
-export default (req: Response, res: Request, next: NextFunction) => {
+import { Request, Response, NextFunction, response } from 'express';
+
+export default (req: Request, res: Response, next: NextFunction) => {
     next({
-        error: 'Not found',
+        error : 'Not found',
         code: 404
-    });
+    } );
 };

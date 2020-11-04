@@ -1,38 +1,34 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, Request, NextFunction } from 'express';
+import { ResponseMessage, InsideMessage } from '../../libs/constant';
 
 class TraineeController {
-
     static instance: TraineeController;
 
     static getInstance() {
         if (TraineeController.instance) {
             return TraineeController.instance;
         }
-
         TraineeController.instance = new TraineeController();
-        return TraineeController.instance;
+            return TraineeController.instance;
     }
-
     get(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log('inside get method');
+            console.log(InsideMessage.get);
 
             res.status(200).send({
-                message: 'trainees fethed successfully',
+                message: ResponseMessage.fetched,
                 data: [
                     {
-                        name: 'Aviral Swarnkar',
-                        address: 'Noida'
+                        name: 'Nikhil Rawat',
+                        address: 'Rudrapryag'
                     }
                 ],
-                status: 'success'
+                status: ResponseMessage.successStatus
             });
         }
         catch (err) {
-            // TO DO: will ship below logic in next assignment
-
             return next({
-                error: 'bad request',
+                error: ResponseMessage.badRequest,
                 message: err,
                 status: 400
             });
@@ -41,22 +37,20 @@ class TraineeController {
 
     post(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log('inside post method');
+            console.log(InsideMessage.post);
 
             res.status(200).send({
-                message: 'trainees created successfully',
+                message: ResponseMessage.created,
                 data: {
-                        name: 'Mudit Rajput',
-                        address: 'Noida'
+                        name: 'Rahul Bisht',
+                        address: 'Delhi'
                     },
-                status: 'success'
+                status: ResponseMessage.successStatus
             });
         }
         catch (err) {
-            // TO DO: will ship below logic in next assignment
-
             return next({
-                error: 'bad request',
+                error: ResponseMessage.badRequest,
                 message: err,
                 status: 400
             });
@@ -65,22 +59,20 @@ class TraineeController {
 
     put(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log('inside put method');
+            console.log(InsideMessage.put);
 
             res.status(200).send({
-                message: 'trainees updated successfully',
+                message: ResponseMessage.updated,
                 data: {
-                        name: 'Mudit Rajput',
-                        address: 'Bijnor'
+                        name: 'Rahul Bisht',
+                        address: 'Kamoun'
                     },
-                status: 'success'
+                status: ResponseMessage.successStatus
             });
         }
         catch (err) {
-            // TO DO: will ship below logic in next assignment
-
             return next({
-                error: 'bad request',
+                error: ResponseMessage.badRequest,
                 message: err,
                 status: 400
             });
@@ -89,19 +81,17 @@ class TraineeController {
 
     delete(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log('inside delete method');
+            console.log(InsideMessage.delete);
 
             res.status(200).send({
-                message: 'trainees deleted successfully',
+                message: ResponseMessage.deleted,
                 data: {},
-                status: 'success'
+                status: ResponseMessage.successStatus
             });
         }
         catch (err) {
-            // TO DO: will ship below logic in next assignment
-
             return next({
-                error: 'bad request',
+                error: ResponseMessage.badRequest,
                 message: err,
                 status: 400
             });
