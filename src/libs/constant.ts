@@ -1,4 +1,4 @@
-export const permissions: IPermissions = {
+export const permissions = {
     'getUsers':
     {
     all: ['head-trainer'],
@@ -35,5 +35,6 @@ export const errorMessage = {
     limit: 'Limit is invalid',
     skip: 'Skip is invalid',
     id: 'Id is required',
-    name: 'Name is required'
+    name: 'Name is required',
+    Occured: 'Error Occured'
 };
