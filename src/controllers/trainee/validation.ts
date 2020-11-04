@@ -1,3 +1,5 @@
+import { errorMessage } from '../../libs/constant';
+
 const config = {
     post: {
         id: {
@@ -8,7 +10,7 @@ const config = {
                 console.log('Value', value);
                 throw {
                     error: 'Error Occured',
-                    message: 'Message',
+                    message: errorMessage.id,
                 };
             },
         },
@@ -17,14 +19,14 @@ const config = {
             string: true,
             regex: /[a-z]+[ ][a-z]+$/i,
             in: ['body'],
-            errorMessage: 'Name is required',
+            errorMessage: errorMessage.name,
         },
     },
 
     delete: {
         id: {
             required: true,
-            errorMessage: 'Id is required',
+            errorMessage: errorMessage.id,
             in: ['params'],
         },
     },
@@ -34,14 +36,14 @@ const config = {
             default: 0,
             number: true,
             in: ['query'],
-            errorMessage: 'Skip is invalid',
+            errorMessage: errorMessage.skip,
         },
         limit: {
             required: false,
             default: 10,
             number: true,
             in: ['query'],
-            errorMessage: 'Limit is invalid',
+            errorMessage: errorMessage.limit,
         },
     },
     put: {
