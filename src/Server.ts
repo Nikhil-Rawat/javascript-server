@@ -2,6 +2,9 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import { errorHandler, notFoundRoute } from './libs/routes';
 import routes from './router';
+import Database from './libs/Database';
+import { mongoResponse } from './libs/constant';
+import { mongo } from 'mongoose';
 
 class Server {
     private app: any;
@@ -35,15 +38,32 @@ class Server {
     }
 
     run() {
-        const { app, configuration: { port } } = this;
-        app.listen(port, err => {
-            if (err) {
-                console.log(`Error: app failed  ${err}`);
-            }
-            console.log(`app is running on port ${port}`);
-        });
+        const { app, configuration: { port, MONGO_URL } } = this;
+        // Database.open(MONGO_URL, (err) => {
+        //     if (err) {
+        //         console.log(err);
+        //         return;
+        //     }
+        //     app.listen(port, err => {
+        //         if (err) {
+        //             console.log(`Error: app failed  ${err}`);
+        //         }
+        //         console.log(`app is running on port ${port}`);
+        //     });
+        //     console.log(mongoResponse.success);
+        // });
+        Database.open(MONGO_URL)
+            .then((res) => {
+                console.log(mongoResponse.success);
+                app.listen(port, err => {
+                    if (err) {
+                        console.log(`Error: app failed  ${err}`);
+                    }
+                    console.log(`app is running on port ${port}`);
+                });
+            })
+            .catch(err => console.log(err));
         return this;
     }
-
 }
 export default Server;
