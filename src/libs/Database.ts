@@ -1,8 +1,9 @@
 import * as mongoose from 'mongoose';
+import { mongoResponse } from './constant';
 
 class Database {
     // static open(mongoURL, callback) {
-    //     console.log('Inside open method');
+    //     console.log(mongoResponse.openMethod);
     //     mongoose.connect(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
     //         if (err) {
     //             console.log(err);
@@ -14,7 +15,7 @@ class Database {
     // }
     static open(mongoURL) {
         return new Promise((resolve, reject) => {
-            console.log('Inside open method');
+            console.log(mongoResponse.openMethod);
             mongoose.connect(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
                 if (err) {
                     console.log(err);
@@ -26,7 +27,7 @@ class Database {
         });
     }
     static disconnect() {
-        console.log('Inside disconnect method');
+        console.log(mongoResponse.disconnectMethod);
     }
 }
 

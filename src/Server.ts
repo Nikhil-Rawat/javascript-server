@@ -3,6 +3,8 @@ import * as bodyParser from 'body-parser';
 import { errorHandler, notFoundRoute } from './libs/routes';
 import routes from './router';
 import Database from './libs/Database';
+import { mongoResponse } from './libs/constant';
+import { mongo } from 'mongoose';
 
 class Server {
     private app: any;
@@ -48,11 +50,11 @@ class Server {
         //         }
         //         console.log(`app is running on port ${port}`);
         //     });
-        //     console.log('Successfully connected to mongo');
+        //     console.log(mongoResponse.success);
         // });
         Database.open(MONGO_URL)
             .then((res) => {
-                console.log('Successfully connected to mongo');
+                console.log(mongoResponse.success);
                 app.listen(port, err => {
                     if (err) {
                         console.log(`Error: app failed  ${err}`);

@@ -38,3 +38,9 @@ export const errorMessage = {
     name: 'Name is required',
     Occured: 'Error Occured'
 };
+
+export const mongoResponse = {
+    success: 'Successfully connected to mongo',
+    openMethod: 'Inside open method',
+    disconnectMethod: 'Inside disconnect method'
+};

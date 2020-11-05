@@ -3,7 +3,7 @@ config();
 const configuration: IConfig = {
     port: process.env.port,
     node_env: process.env.node_env,
-    MONGO_URL: 'mongodb://localhost:27017/express-training',
+    MONGO_URL: process.env.MONGO_URL
 };
 Object.freeze(configuration);
 console.log(`config is ${configuration}`);
