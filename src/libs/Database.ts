@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 import { mongoResponse } from './constant';
+import { default as seedData } from './seedData';
 
 class Database {
     // static open(mongoURL, callback) {
@@ -13,15 +14,16 @@ class Database {
     //         callback(undefined);
     //     });
     // }
-    static open(mongoURL) {
+    public static open(mongourl) {
         return new Promise((resolve, reject) => {
             console.log(mongoResponse.openMethod);
-            mongoose.connect(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
+            mongoose.connect(mongourl, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
                 if (err) {
                     console.log(err);
                     reject(err);
                     return;
                 }
+                seedData();
                 resolve(undefined);
             });
         });
