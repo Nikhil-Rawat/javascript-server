@@ -19,8 +19,8 @@ class TraineeController {
                 message: ResponseMessage.fetched,
                 data: [
                     {
-                        name: 'Nikhil Rawat',
-                        address: 'Rudrapryag'
+                        name: 'Nisha Mangnani',
+                        address: 'Ahemdabad'
                     }
                 ],
                 status: ResponseMessage.successStatus

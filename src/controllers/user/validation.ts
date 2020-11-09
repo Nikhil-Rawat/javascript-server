@@ -1,8 +1,8 @@
 import { errorMessage } from '../../libs/constant';
 
 const config = {
-    post: {
-        id: {
+    create: {
+        password: {
             required: true,
             string: true,
             in: ['body'],
@@ -14,10 +14,10 @@ const config = {
                 };
             },
         },
-        name: {
-            required: true,
+        email: {
+            required: false,
             string: true,
-            regex: /[a-z]+[ ][a-z]+$/i,
+            regex: /^[a-zA-Z0-9+_.-]+@+[a-zA-Z]+.+[a-zA-Z]+$/,
             in: ['body'],
             errorMessage: errorMessage.name,
         },
