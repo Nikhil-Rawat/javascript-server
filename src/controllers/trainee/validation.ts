@@ -22,6 +22,95 @@ const config = {
             errorMessage: errorMessage.name,
         },
     },
+    find: {
+        role: {
+            required: true,
+            string: true,
+            in: ['body'],
+            error: errorMessage.Occured,
+            message: errorMessage.id,
+        }
+    },
+    create: {
+        name: {
+            required: true,
+            string: true,
+            in: ['body'],
+            error: errorMessage.Occured,
+            message: errorMessage.name,
+        },
+        createdBy: {
+            required: true,
+            string: true,
+            in: ['body'],
+            error: errorMessage.Occured,
+            message: errorMessage.name,
+        },
+        email: {
+            required: true,
+            string: true,
+            in: ['body'],
+            error: errorMessage.Occured,
+            message: errorMessage.name,
+        },
+        password: {
+            required: true,
+            string: true,
+            in: ['body'],
+            error: errorMessage.Occured,
+            message: errorMessage.name,
+        },
+        role: {
+            required: true,
+            string: true,
+            in: ['body'],
+            error: errorMessage.Occured,
+            message: errorMessage.name,
+        }
+    },
+    update: {
+        originalId: {
+            required: true,
+            string: true,
+            errorMessage: errorMessage.id,
+            in: ['body'],
+        },
+        name: {
+            required: false,
+            string: true,
+            in: ['body'],
+            error: errorMessage.Occured,
+            message: errorMessage.name,
+        },
+        updatedBy: {
+            required: true,
+            string: true,
+            in: ['body'],
+            error: errorMessage.Occured,
+            message: errorMessage.name,
+        },
+        email: {
+            required: false,
+            string: true,
+            in: ['body'],
+            error: errorMessage.Occured,
+            message: errorMessage.name,
+        },
+        password: {
+            required: false,
+            string: true,
+            in: ['body'],
+            error: errorMessage.Occured,
+            message: errorMessage.name,
+        },
+        role: {
+            required: false,
+            string: true,
+            in: ['body'],
+            error: errorMessage.Occured,
+            message: errorMessage.name,
+        }
+    },
 
     delete: {
         id: {
@@ -29,6 +118,20 @@ const config = {
             errorMessage: errorMessage.id,
             in: ['params'],
         },
+    },
+    traineedelete: {
+        id: {
+            required: true,
+            string: true,
+            errorMessage: errorMessage.id,
+            in: ['body'],
+        },
+        deletedBy: {
+            required: true,
+            string: true,
+            errorMessage: 'not deleted',
+            in: ['body']
+        }
     },
     get: {
         skip: {

@@ -6,19 +6,23 @@ export default () => {
         .then((res) => {
             if (res === 0 ) {
                 console.log('Data seeding in progress');
-                userRepository.create({
+                userRepository.createV({
                     name: 'Head Trainer',
                     role: 'head-trainer',
                     email: 'headtrainer@successive.tech',
                     password: 'headtrainer123',
-                    id: '123'
+                    id: '123',
+                    createdAt: Date.now(),
+                    createdBy: 'Admin'
                 });
-                userRepository.create({
+                userRepository.createV({
                     name: 'Trainer',
                     role: 'trainee',
                     email: 'trainer@successive.tech',
                     password: 'trainer456',
-                    id: '456'
+                    id: '456',
+                    createdAt: Date.now(),
+                    createdBy: 'Admin'
                 });
             }
         })

@@ -1,4 +1,4 @@
-interface IPermissions {
+export interface IPermissions {
     getUsers: GetUsers;
     getProducts: GetProduct;
 }
@@ -17,7 +17,7 @@ type GetProduct = {
 };
 
 
-interface IUsers {
+export interface IUsers {
     [index: number]: {traineeEmail: string; reviewerEmail: string};
 }
 

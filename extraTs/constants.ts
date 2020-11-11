@@ -1,3 +1,4 @@
+import { IUsers, IPermissions } from './interface';
 export const permissions: IPermissions = {
     'getUsers':
     {

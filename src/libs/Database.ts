@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { mongoResponse } from './constant';
+import { DatabaseMongo } from './constant';
 import { default as seedData } from './seedData';
 
 class Database {
@@ -14,9 +14,9 @@ class Database {
     //         callback(undefined);
     //     });
     // }
-    public static open(mongourl) {
+    public static open(mongourl: string) {
         return new Promise((resolve, reject) => {
-            console.log(mongoResponse.openMethod);
+            console.log(DatabaseMongo.openMethod);
             mongoose.connect(mongourl, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
                 if (err) {
                     console.log(err);
@@ -29,7 +29,7 @@ class Database {
         });
     }
     static disconnect() {
-        console.log(mongoResponse.disconnectMethod);
+        console.log(DatabaseMongo.disconnectMethod);
     }
 }
 

@@ -15,21 +15,6 @@ export const permissions = {
     }
 };
 
-export const ResponseMessage = {
-    successStatus: 'Success',
-    badRequest: 'bad request',
-    fetched: 'trainees fetched successfully',
-    created: 'trainees created successfully',
-    updated: 'trainees updated successfully',
-    deleted: 'trainees deleted successfully'
-};
-
-export const InsideMessage = {
-    get: 'inside get method',
-    post: 'inside post method',
-    put: 'inside put method',
-    delete: 'inside delete method'
-};
 
 export const errorMessage = {
     limit: 'Limit is invalid',
@@ -39,8 +24,27 @@ export const errorMessage = {
     Occured: 'Error Occured'
 };
 
-export const mongoResponse = {
+export const DatabaseMongo = {
     success: 'Successfully connected to mongo',
     openMethod: 'Inside open method',
     disconnectMethod: 'Inside disconnect method'
+};
+
+export const ControllerResponse = {
+    Insideget: 'inside get method',
+    InsidegetAll: 'Inside getAll method',
+    InsidefindOne: 'Inside findOne method',
+    Insidefind: 'Inside find method',
+    Insidepost: 'inside post method',
+    Insideput: 'inside put method',
+    Insidedelete: 'inside delete method',
+    insideCreateUser: 'Inside createUser',
+    ResponseSuccess: 'Success',
+    ResponseBadRequest: 'bad request',
+    fetched: 'trainees fetched successfully',
+    created: 'trainees created successfully',
+    updated: 'trainees updated successfully',
+    deleted: 'trainees deleted successfully',
+    createUser: 'User created successfully',
+    updateUser: 'trainee updated successfully'
 };

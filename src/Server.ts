@@ -3,7 +3,7 @@ import * as bodyParser from 'body-parser';
 import { errorHandler, notFoundRoute } from './libs/routes';
 import routes from './router';
 import Database from './libs/Database';
-import { mongoResponse } from './libs/constant';
+import { DatabaseMongo } from './libs/constant';
 import { mongo } from 'mongoose';
 import IConfig from './config/IConfig';
 
@@ -39,8 +39,8 @@ class Server {
     }
 
     run() {
-        const { app, configuration: { PORT, MONGO_URL } } = this;
-        // Database.open(MONGO_URL, (err) => {
+        const { app, configuration: { port, mongourl } } = this;
+        // Database.open(mongourl, (err) => {
         //     if (err) {
         //         console.log(err);
         //         return;
@@ -53,14 +53,14 @@ class Server {
         //     });
         //     console.log(mongoResponse.success);
         // });
-        Database.open(MONGO_URL)
+        Database.open(mongourl)
             .then((res) => {
-                console.log(mongoResponse.success);
-                app.listen(PORT, err => {
+                console.log(DatabaseMongo.success);
+                app.listen(port, err => {
                     if (err) {
                         console.log(`Error: app failed  ${err}`);
                     }
-                    console.log(`app is running on port ${PORT}`);
+                    console.log(`app is running on port ${port}`);
                 });
             })
             .catch(err => console.log(err));
