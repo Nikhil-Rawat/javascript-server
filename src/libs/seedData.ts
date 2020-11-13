@@ -1,4 +1,7 @@
 import UserRepository from '../repositories/user/UserRepository';
+import configuration from '../config/configuration';
+import * as bcrypt from 'bcrypt';
+
 
 const userRepository: UserRepository = new UserRepository();
 export default () => {
@@ -6,23 +9,31 @@ export default () => {
         .then((res) => {
             if (res === 0 ) {
                 console.log('Data seeding in progress');
-                userRepository.createV({
-                    name: 'Head Trainer',
-                    role: 'head-trainer',
-                    email: 'headtrainer@successive.tech',
-                    password: 'headtrainer123',
-                    id: '123',
-                    createdAt: Date.now(),
-                    createdBy: 'Admin'
-                });
-                userRepository.createV({
-                    name: 'Trainer',
-                    role: 'trainee',
-                    email: 'trainer@successive.tech',
-                    password: 'trainer456',
-                    id: '456',
-                    createdAt: Date.now(),
-                    createdBy: 'Admin'
+                bcrypt.hash(configuration.password, 10, (err: Error, hash: string) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        userRepository.createV({
+                            id: '123',
+                            name: 'Head Trainer',
+                            role: 'head-trainer',
+                            email: 'headtrainer@successive.tech',
+                            password: hash,
+                            createdBy: 'Admin',
+                            createdAt: Date.now()
+                        });
+                        userRepository.createV({
+                            id: '456',
+                            name: 'Trainer',
+                            role: 'trainee',
+                            email: 'trainer@successive.tech',
+                            password: hash,
+                            createdBy: 'Admin',
+                            createdAt: Date.now()
+                        });
+
+                    }
                 });
             }
         })

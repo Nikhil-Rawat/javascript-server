@@ -7,6 +7,7 @@ import * as jwt from 'jsonwebtoken';
 import { config } from 'dotenv/types';
 import { userModel } from '../../repositories/user/UserModel';
 import authMiddleWare from '../../libs/routes/authMiddleWare';
+import * as bcrypt from 'bcrypt';
 
 class UserController {
     static instance: UserController;
@@ -105,14 +106,13 @@ class UserController {
             });
         }
     }
-    create(req: Request, res: Response, next: NextFunction) {
+    login(req: Request, res: Response, next: NextFunction) {
         const secretkey = configuration.secretkey;
-        userModel.findOne({email: req.body.email, password: req.body.password}, (err, data) => {
+        userModel.findOne({email: req.body.email}, (err, data) => {
             if (err) {
                 console.log(err);
             }
             else {
-                console.log(data);
                 if (data === null) {
                     console.log('Unauthorized user');
                     res.send({
@@ -120,10 +120,28 @@ class UserController {
                     });
                 }
                 else {
-                    const token = jwt.sign({data}, secretkey);
-                    res.send({
-                        message: 'Successfully created token',
-                        datatoken: token
+                    console.log(data);
+                    bcrypt.compare(req.body.password, data.password, (err1: Error, result) => {
+                        if (err1) {
+                            console.log(err1);
+                        }
+                        else {
+                            if (result === true) {
+                                const token = jwt.sign({data}, secretkey, {
+                                    expiresIn : '15m'
+                                });
+                                res.send({
+                                    message: 'Successfully created token',
+                                    datatoken: token
+                                });
+                            }
+                            else {
+                                console.log('Unauthorized user');
+                                res.send({
+                                message: 'Unauthorized user'
+                             });
+                            }
+                        }
                     });
                 }
             }

@@ -1,6 +1,7 @@
 import { Response, Request, NextFunction } from 'express';
 import { ControllerResponse } from '../../libs/constant';
 import UserRepository from '../../repositories/user/UserRepository';
+import * as bcrypt from 'bcrypt';
 
 class TraineeController {
     static instance: TraineeController;
@@ -75,9 +76,9 @@ class TraineeController {
                 else {
                     res.status(200).send({
                         message: ControllerResponse.fetched,
-                        data: [
+                        Data: [
                             {
-                               email : req.body.email
+                               email : data
                             }
                         ],
                         status: ControllerResponse.ResponseSuccess
@@ -104,9 +105,9 @@ class TraineeController {
                 else {
                     res.status(200).send({
                         message: ControllerResponse.fetched,
-                        data: [
+                        Database: [
                             {
-                               email : data
+                               Data : data
                             }
                         ],
                         status: ControllerResponse.ResponseSuccess
@@ -147,15 +148,26 @@ class TraineeController {
     createUser(req: Request, res: Response, next: NextFunction) {
         try {
             console.log(ControllerResponse.insideCreateUser);
-            const usercreate = new UserRepository();
-            usercreate.createV(req.body);
-            res.status(200).send({
-                message: ControllerResponse.createUser,
-                data: {
-                        database: req.body.name
+            bcrypt.hash(req.body.password, 10, (err, hash) => {
+                // Store hash in your password DB.
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    req.body.password = hash;
+                    const usercreate = new UserRepository();
+                    usercreate.createV(req.body);
+                    console.log('New user created');
+                    res.status(200).send({
+                    message: ControllerResponse.createUser,
+                    data: {
+                        name: req.body.name,
+                        password: req.body.password
                     },
-                status: 200
-            });
+                    status: 200
+                });
+            }
+        });
         }
         catch (err) {
             return next({
@@ -208,12 +220,12 @@ class TraineeController {
     deleteAt(req: Request, res: Response, next: NextFunction ) {
         try {
             const userRepository: UserRepository = new UserRepository();
-            userRepository.delete(req.body.id, req.body.deletedBy);
+            userRepository.delete(req.body.originalId, req.body.deletedBy);
             res.status(200).send({
                 message: ControllerResponse.deleted,
                 data: [
                     {
-                        Deleted_Id: req.body.originalid,
+                        Deleted_Id: req.body.originalId,
                         Deleted_By: req.body.name
                     }
                 ],

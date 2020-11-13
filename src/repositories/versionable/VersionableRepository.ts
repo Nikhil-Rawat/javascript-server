@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
 import { DocumentQuery, Query } from 'mongoose';
 import IUserModel from '../user/IUserModel';
+import * as bcrypt from 'bcrypt';
 
 export default class VersioningRepository<D extends mongoose.Document, M extends mongoose.Model<D>> {
     public static generateObjectId() {
@@ -12,6 +13,7 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
     }
 
     public async createV(data: any): Promise<D> {
+        const password = bcrypt.hash(data.password, 10);
         const id = VersioningRepository.generateObjectId();
         const model = new this.model( {
             ...data,

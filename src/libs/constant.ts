@@ -21,7 +21,8 @@ export const errorMessage = {
     skip: 'Skip is invalid',
     id: 'Id is required',
     name: 'Name is required',
-    Occured: 'Error Occured'
+    Occured: 'Error Occured',
+    email: 'Email is invalid'
 };
 
 export const DatabaseMongo = {

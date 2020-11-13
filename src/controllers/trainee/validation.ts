@@ -24,12 +24,39 @@ const config = {
     },
     find: {
         role: {
-            required: true,
+            required: false,
             string: true,
             in: ['body'],
             error: errorMessage.Occured,
             message: errorMessage.id,
-        }
+        },
+        originalId: {
+            required: false,
+            string: true,
+            errorMessage: errorMessage.id,
+            in: ['body'],
+        },
+        name: {
+            required: false,
+            string: true,
+            in: ['body'],
+            error: errorMessage.Occured,
+            message: errorMessage.name,
+        },
+        createdBy: {
+            required: false,
+            string: true,
+            in: ['body'],
+            error: errorMessage.Occured,
+            message: errorMessage.name,
+        },
+        email: {
+            required: false,
+            string: true,
+            in: ['body'],
+            error: errorMessage.Occured,
+            message: errorMessage.name,
+        },
     },
     create: {
         name: {
@@ -39,12 +66,12 @@ const config = {
             error: errorMessage.Occured,
             message: errorMessage.name,
         },
-        createdBy: {
+        role: {
             required: true,
             string: true,
             in: ['body'],
             error: errorMessage.Occured,
-            message: errorMessage.name,
+            message: errorMessage.name
         },
         email: {
             required: true,
@@ -60,7 +87,7 @@ const config = {
             error: errorMessage.Occured,
             message: errorMessage.name,
         },
-        role: {
+        createdBy: {
             required: true,
             string: true,
             in: ['body'],
@@ -119,8 +146,16 @@ const config = {
             in: ['params'],
         },
     },
+    findone: {
+        email: {
+            required: true,
+            string: true,
+            errorMessage: errorMessage.email,
+            in: ['body'],
+        },
+    },
     traineedelete: {
-        id: {
+        originalId: {
             required: true,
             string: true,
             errorMessage: errorMessage.id,

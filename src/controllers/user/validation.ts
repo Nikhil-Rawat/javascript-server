@@ -1,7 +1,7 @@
 import { errorMessage } from '../../libs/constant';
 
 const config = {
-    create: {
+    login: {
         password: {
             required: true,
             string: true,

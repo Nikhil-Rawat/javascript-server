@@ -6,7 +6,8 @@ const configuration: IConfig = {
     port: envparsed.PORT,
     node_env: envparsed.NODE_ENV,
     mongourl: envparsed.MONGO_URL,
-    secretkey: envparsed.SECRETKEY
+    secretkey: envparsed.SECRETKEY,
+    password: envparsed.PASSWORD
 };
 Object.freeze(configuration);
 console.log(`config is ${configuration}`);
