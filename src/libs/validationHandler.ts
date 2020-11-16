@@ -1,64 +1,6 @@
-// import { Request, Response, NextFunction } from 'express';
-
-// export default (config) => (req: Request, res: Response, next: NextFunction) => {
-//     console.log(req.body);
-//     const errors = [];
-//     Object.keys(config).forEach((key) => {
-//         const i = 0;
-//         const keys = config[key];
-//         const locations = keys.in[i];
-//         let request = req[locations][key];
-//         const regex = keys.regex;
-//         console.log(req.body.email);
-//         if ((keys.required) && !(request)) {
-//             console.log('1');
-//             const err = {
-//                 key: `${key}`,
-//                 location: `${keys.in}`,
-//                 errorMessage: `${keys.errorMessage || 'required'}`
-//                 };
-//                 return errors.push(err);
-//         }
-//         if ((!keys.required) && !(request)) {
-//             return request = keys.default;
-//         }
-//         if (
-//             (((keys.number) && !(Number.isInteger(Number(request)))) ||
-//             ((keys.string) && !(typeof request === 'string')))
-//             ) {
-//                 console.log('3');
-//             const err = {
-//                 key: `${key}`,
-//                 location: `${keys.in}`,
-//                 errorMessage: `${keys.errorMessage || 'incorrect Type'}`
-//                 };
-//                 return errors.push(err);
-//         }
-//         if ((keys.isObject) && !(typeof(request) === 'object')) {
-//             console.log('4');
-//             const err = {
-//                 key: `${key}`,
-//                 location: `${keys.in}`,
-//                 errorMessage: `${keys.errorMessage || 'not an Object'}`
-//                 };
-//                 return errors.push(err);
-//         }
-//         if ((regex) && (!regex.test(request))) {
-//             console.log('5');
-//             const err = {
-//                 key: `${key}`,
-//                 location: `${keys.in}`,
-//                 errorMessage: `${request} is not valid`
-//                 };
-//                 return errors.push(err);
-//         }
-//     });
-//     if (errors.length > 0) {
-//         return res.status(400).send(errors);
-//     }
-//     next();
-// };
 import { Request, Response, NextFunction } from 'express';
+
+
 export default (Validation) => (req: Request, res: Response, next: NextFunction ) => {
     console.log(req.body);
     console.log(req.query);

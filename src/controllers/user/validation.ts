@@ -1,7 +1,7 @@
 import { errorMessage } from '../../libs/constant';
 
 const config = {
-    create: {
+    login: {
         password: {
             required: true,
             string: true,
@@ -15,7 +15,7 @@ const config = {
             },
         },
         email: {
-            required: false,
+            required: true,
             string: true,
             regex: /^[a-zA-Z0-9+_.-]+@+[a-zA-Z]+.+[a-zA-Z]+$/,
             in: ['body'],
