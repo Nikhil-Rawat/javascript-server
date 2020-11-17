@@ -22,14 +22,6 @@ const config = {
             errorMessage: errorMessage.name,
         },
     },
-
-    delete: {
-        id: {
-            required: true,
-            errorMessage: errorMessage.id,
-            in: ['params'],
-        },
-    },
     get: {
         skip: {
             required: false,
@@ -45,22 +37,7 @@ const config = {
             in: ['query'],
             errorMessage: errorMessage.limit,
         },
-    },
-    put: {
-        id: {
-            required: true,
-            string: true,
-            in: ['body']
-        },
-        dataToUpdate: {
-            in: ['body'],
-            required: true,
-            isObject: true,
-            custom(dataToUpdate) {
-                console.log();
-            },
-        },
-    },
+    }
 };
 
 export default config;

@@ -13,20 +13,20 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
     }
 
     public async createV(data: any): Promise<D> {
-        const password = bcrypt.hash(data.password, 10);
+        // const password = bcrypt.hash(data.password, 10);
         const id = VersioningRepository.generateObjectId();
         const model = new this.model( {
             ...data,
             _id: id,
             originalId: id
         });
-        return model.save();
+        return await model.save();
     }
     public count(query): Query<number> {
         const finalQuery = { deletedAt: undefined, ...query };
         return this.model.countDocuments(finalQuery);
     }
-    public getAll(query: any, projection: any = {}, options: any = {}): DocumentQuery<D[], D> {
+    public getAll(query: any, projection: any = {}, options: any = {sort: {name : 1 }}): DocumentQuery<D[], D> {
         const finalQuery = {deletedAt: undefined, ...query};
         return this.model.find(finalQuery, projection, options);
     }

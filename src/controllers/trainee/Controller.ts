@@ -13,34 +13,11 @@ class TraineeController {
         TraineeController.instance = new TraineeController();
             return TraineeController.instance;
     }
-    get(req: Request, res: Response, next: NextFunction) {
-        try {
-            console.log(ControllerResponse.Insideget);
-
-            res.status(200).send({
-                message: ControllerResponse.fetched,
-                data: [
-                    {
-                        name: 'Nisha Mangnani',
-                        address: 'Ahemdabad'
-                    }
-                ],
-                status: ControllerResponse.ResponseSuccess
-            });
-        }
-        catch (err) {
-            return next({
-                error: ControllerResponse.ResponseBadRequest,
-                message: err,
-                status: 400
-            });
-        }
-    }
-    getAll(req: Request, res: Response, next: NextFunction) {
+    public async getAll(req: Request, res: Response, next: NextFunction) {
         try {
             console.log(ControllerResponse.InsidegetAll);
             const Userepository: UserRepository = new UserRepository();
-            Userepository.getAll({}, (err: Error, data: object) => {
+            await Userepository.getAll({}, (err: Error, data: []) => {
                 if (err) {
                     console.log(err);
                 }
@@ -49,7 +26,8 @@ class TraineeController {
                         message: ControllerResponse.fetched,
                         data: [
                             {
-                               database : data
+                                Total_Count: data.length,
+                                database: data
                             }
                         ],
                         status: ControllerResponse.ResponseSuccess
@@ -65,11 +43,11 @@ class TraineeController {
             });
         }
     }
-    findOne(req: Request, res: Response, next: NextFunction) {
+    public async searchOne(req: Request, res: Response, next: NextFunction) {
         try {
             console.log(ControllerResponse.InsidefindOne);
             const Userepository: UserRepository = new UserRepository();
-            Userepository.findOne({email: req.body.email}, (err, data) => {
+            await Userepository.findOne({email: req.body.email}, (err: Error, data: []) => {
                 if (err) {
                     console.log(err);
                 }
@@ -94,11 +72,11 @@ class TraineeController {
             });
         }
     }
-    find(req: Request, res: Response, next: NextFunction) {
+    public async search(req: Request, res: Response, next: NextFunction) {
         try {
             console.log(ControllerResponse.Insidefind);
             const Userepository: UserRepository = new UserRepository();
-            Userepository.find(req.body, (err, data) => {
+            await Userepository.find(req.body, (err: Error, data: []) => {
                 if (err) {
                     console.log(err);
                 }
@@ -123,96 +101,38 @@ class TraineeController {
             });
         }
     }
-
-    post(req: Request, res: Response, next: NextFunction) {
-        try {
-            console.log(ControllerResponse.Insidepost);
-
-            res.status(200).send({
-                message: ControllerResponse.created,
-                data: {
-                        name: 'Rahul Bisht',
-                        address: 'Delhi'
-                    },
-                status: ControllerResponse.ResponseSuccess
-            });
-        }
-        catch (err) {
-            return next({
-                error: ControllerResponse.ResponseBadRequest,
-                message: err,
-                status: 400
-            });
-        }
-    }
-    createUser(req: Request, res: Response, next: NextFunction) {
+    public async createUser(req: Request, res: Response, next: NextFunction) {
         try {
             console.log(ControllerResponse.insideCreateUser);
-            bcrypt.hash(req.body.password, 10, (err, hash) => {
-                // Store hash in your password DB.
+            await bcrypt.hash(req.body.password, 10, (err: Error, hash: string) => {
                 if (err) {
                     console.log(err);
                 }
                 else {
                     req.body.password = hash;
                     const usercreate = new UserRepository();
-                    usercreate.createV(req.body);
-                    console.log('New user created');
-                    res.status(200).send({
-                    message: ControllerResponse.createUser,
-                    data: {
-                        name: req.body.name,
-                        password: req.body.password
-                    },
-                    status: 200
-                });
-            }
-        });
-        }
-        catch (err) {
-            return next({
-                error: ControllerResponse.ResponseBadRequest,
-                message: err,
-                status: 400
-            });
-        }
-    }
-    put(req: Request, res: Response, next: NextFunction) {
-        try {
-            console.log(ControllerResponse.Insideput);
-
-            res.status(200).send({
-                message: ControllerResponse.updated,
-                data: {
-                        name: 'Rahul Bisht',
-                        address: 'Kamoun'
-                    },
-                status: ControllerResponse.ResponseSuccess
+                    if (usercreate.createV(req.body)) {
+                        console.log(ControllerResponse.createUser);
+                        res.status(200).send({
+                            message: ControllerResponse.createUser,
+                            data: {
+                                name: req.body.name
+                            },
+                            status: 200
+                        });
+                    }
+                    else {
+                        res.send({
+                            message: 'User not created'
+                        });
+                    }
+                }
             });
         }
         catch (err) {
             return next({
-                error: ControllerResponse.ResponseBadRequest,
-                message: err,
-                status: 400
-            });
-        }
-    }
-
-    delete(req: Request, res: Response, next: NextFunction) {
-        try {
-            console.log(ControllerResponse.Insidedelete);
-
-            res.status(200).send({
-                message: ControllerResponse.deleted,
-                data: {},
-                status: ControllerResponse.ResponseSuccess
-            });
-        }
-        catch (err) {
-            return next({
-                error: ControllerResponse.ResponseBadRequest,
-                message: err,
+                error: err,
+                message: ControllerResponse.ResponseBadRequest,
                 status: 400
             });
         }
@@ -221,16 +141,15 @@ class TraineeController {
         try {
             const userRepository: UserRepository = new UserRepository();
             userRepository.delete(req.body.originalId, req.body.deletedBy);
-            res.status(200).send({
-                message: ControllerResponse.deleted,
-                data: [
-                    {
-                        Deleted_Id: req.body.originalId,
-                        Deleted_By: req.body.name
-                    }
-                ],
-                status: ControllerResponse.ResponseSuccess,
-            });
+                res.status(200).send({
+                    message: ControllerResponse.deleted,
+                    data: [
+                        {
+                            Deleted_By: req.body.name
+                        }
+                    ],
+                    status: ControllerResponse.ResponseSuccess,
+                });
         } catch (err) {
             console.log(err);
         }

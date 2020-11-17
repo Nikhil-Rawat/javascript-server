@@ -1,40 +1,13 @@
 import { errorMessage } from '../../libs/constant';
 
 const config = {
-    post: {
-        id: {
-            required: true,
-            string: true,
-            in: ['body'],
-            custom(value) {
-                console.log('Value', value);
-                throw {
-                    error: errorMessage.Occured,
-                    message: errorMessage.id,
-                };
-            },
-        },
-        name: {
-            required: true,
-            string: true,
-            regex: /[a-z]+[ ][a-z]+$/i,
-            in: ['body'],
-            errorMessage: errorMessage.name,
-        },
-    },
-    find: {
+    search: {
         role: {
             required: false,
             string: true,
             in: ['body'],
             error: errorMessage.Occured,
-            message: errorMessage.id,
-        },
-        originalId: {
-            required: false,
-            string: true,
-            errorMessage: errorMessage.id,
-            in: ['body'],
+            message: errorMessage.role,
         },
         name: {
             required: false,
@@ -49,14 +22,7 @@ const config = {
             in: ['body'],
             error: errorMessage.Occured,
             message: errorMessage.name,
-        },
-        email: {
-            required: false,
-            string: true,
-            in: ['body'],
-            error: errorMessage.Occured,
-            message: errorMessage.name,
-        },
+        }
     },
     create: {
         name: {
@@ -138,33 +104,25 @@ const config = {
             message: errorMessage.name,
         }
     },
-
-    delete: {
-        id: {
-            required: true,
-            errorMessage: errorMessage.id,
-            in: ['params'],
-        },
-    },
-    findone: {
+    searchOne: {
         email: {
             required: true,
             string: true,
             errorMessage: errorMessage.email,
             in: ['body'],
-        },
+        }
     },
     traineedelete: {
+        deletedBy: {
+            required: true,
+            string: true,
+            errorMessage: errorMessage.deltedBy,
+            in: ['body']
+        },
         originalId: {
             required: true,
             string: true,
             errorMessage: errorMessage.id,
-            in: ['body'],
-        },
-        deletedBy: {
-            required: true,
-            string: true,
-            errorMessage: 'not deleted',
             in: ['body']
         }
     },
@@ -183,22 +141,7 @@ const config = {
             in: ['query'],
             errorMessage: errorMessage.limit,
         },
-    },
-    put: {
-        id: {
-            required: true,
-            string: true,
-            in: ['body']
-        },
-        dataToUpdate: {
-            in: ['body'],
-            required: true,
-            isObject: true,
-            custom(dataToUpdate) {
-                console.log();
-            },
-        },
-    },
+    }
 };
 
 export default config;
