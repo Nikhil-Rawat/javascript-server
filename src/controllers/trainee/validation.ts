@@ -141,6 +141,12 @@ const config = {
             in: ['query'],
             errorMessage: errorMessage.limit,
         },
+        sortBy: {
+            required: false,
+            string: true,
+            in: ['query'],
+            errorMessage: errorMessage.sortBy
+        }
     }
 };
 

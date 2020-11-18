@@ -22,6 +22,8 @@ export default (Validation) => (req: Request, res: Response, next: NextFunction 
                 return;
             }
             value = value || inObject.default;
+            res.locals[keys] = value;
+            console.log(value);
             if (!value) {
                 return;
             }

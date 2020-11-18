@@ -24,7 +24,8 @@ export const errorMessage = {
     Occured: 'Error Occured',
     email: 'Email is invalid',
     deltedBy: 'DeletedBy name is required',
-    role: 'Role is required'
+    role: 'Role is required',
+    sortBy: 'sortBy required'
 };
 
 export const DatabaseMongo = {
@@ -49,5 +50,7 @@ export const ControllerResponse = {
     updated: 'trainees updated successfully',
     deleted: 'trainees deleted successfully',
     createUser: 'User created successfully',
-    updateUser: 'trainee updated successfully'
+    updateUser: 'trainee updated successfully',
+    InvalidSorting: 'Invalid sorting argument',
+    SortingUnavailable: 'Sorting is only avaible on name and email'
 };

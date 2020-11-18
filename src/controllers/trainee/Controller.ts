@@ -15,13 +15,15 @@ class TraineeController {
     }
     public async getAll(req: Request, res: Response, next: NextFunction) {
         try {
+            const Skip = res.locals.skip;
+            const Limit = res.locals.limit;
+            const skip = parseInt(Skip.toString(), 10);
+            const limit = parseInt(Limit.toString(), 10);
+            const sortBy = req.query.sortBy || '';
             console.log(ControllerResponse.InsidegetAll);
-            const Userepository: UserRepository = new UserRepository();
-            await Userepository.getAll({}, (err: Error, data: []) => {
-                if (err) {
-                    console.log(err);
-                }
-                else {
+            if (sortBy === '' || sortBy === 'name' || sortBy === 'email') {
+                const Userepository: UserRepository = new UserRepository();
+                const data = await Userepository.getAll({}, skip, limit, sortBy);
                     res.status(200).send({
                         message: ControllerResponse.fetched,
                         data: [
@@ -32,8 +34,13 @@ class TraineeController {
                         ],
                         status: ControllerResponse.ResponseSuccess
                     });
-                }
-            });
+            }
+            else {
+                console.log(ControllerResponse.InvalidSorting);
+                res.send( {
+                    message: ControllerResponse.SortingUnavailable
+                });
+            }
         }
         catch (err) {
             return next({

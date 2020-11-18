@@ -34,6 +34,7 @@ export default () => {
                         });
 
                     }
+                    console.log('Data is seeded sucessfully');
                 });
             }
         })
