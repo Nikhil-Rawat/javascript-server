@@ -22,7 +22,9 @@ export const errorMessage = {
     id: 'Id is required',
     name: 'Name is required',
     Occured: 'Error Occured',
-    email: 'Email is invalid'
+    email: 'Email is invalid',
+    deltedBy: 'DeletedBy name is required',
+    role: 'Role is required'
 };
 
 export const DatabaseMongo = {

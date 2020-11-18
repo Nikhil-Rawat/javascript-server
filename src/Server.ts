@@ -6,6 +6,7 @@ import Database from './libs/Database';
 import { DatabaseMongo } from './libs/constant';
 import { mongo } from 'mongoose';
 import IConfig from './config/IConfig';
+import { Response, Request, NextFunction } from 'express';
 
 class Server {
     private app: any;
@@ -22,7 +23,7 @@ class Server {
     public setupRoutes() {
         const { app } = this;
 
-        app.use('/health-check', (req, res) => {
+        app.use('/health-check', (req: Request, res: Response) => {
             res.send('I am ok');
         });
         app.use('/api', routes);

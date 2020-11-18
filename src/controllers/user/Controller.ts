@@ -19,98 +19,14 @@ class UserController {
         UserController.instance = new UserController();
             return UserController.instance;
     }
-
-    get(req: Request, res: Response, next: NextFunction) {
-        try {
-            console.log(ControllerResponse.Insideget);
-
-            res.status(200).send({
-                message: ControllerResponse.fetched,
-                data: [
-                    {
-                        name: 'Nikhil Rawat',
-                        address: 'Rudrapryag'
-                    }
-                ],
-                status: ControllerResponse.ResponseSuccess
-            });
-        }
-        catch (err) {
-            return next({
-                error: ControllerResponse.ResponseBadRequest,
-                message: err,
-                status: 400
-            });
-        }
-    }
-
-    post(req: Request, res: Response, next: NextFunction) {
-        try {
-            console.log(ControllerResponse.Insidepost);
-
-            res.status(200).send({
-                message: ControllerResponse.created,
-                data: {
-                        name: 'Rahul Bisht',
-                        address: 'Delhi'
-                    },
-                status: ControllerResponse.ResponseSuccess
-            });
-        }
-        catch (err) {
-            return next({
-                error: ControllerResponse.ResponseBadRequest,
-                message: err,
-                status: 400
-            });
-        }
-    }
-
-    put(req: Request, res: Response, next: NextFunction) {
-        try {
-            console.log(ControllerResponse.Insideput);
-
-            res.status(200).send({
-                message: ControllerResponse.updated,
-                data: {
-                        name: 'Rahul Bisht',
-                        address: 'Kamoun'
-                    },
-                status: ControllerResponse.ResponseSuccess
-            });
-        }
-        catch (err) {
-            return next({
-                error: ControllerResponse.ResponseBadRequest,
-                message: err,
-                status: 400
-            });
-        }
-    }
-
-    delete(req: Request, res: Response, next: NextFunction) {
-        try {
-            console.log(ControllerResponse.deleted);
-
-            res.status(200).send({
-                message: ControllerResponse.deleted,
-                data: {},
-                status: ControllerResponse.ResponseSuccess
-            });
-        }
-        catch (err) {
-            return next({
-                error: ControllerResponse.ResponseBadRequest,
-                message: err,
-                status: 400
-            });
-        }
-    }
     login(req: Request, res: Response, next: NextFunction) {
         const secretkey = configuration.secretkey;
         userModel.findOne({email: req.body.email}, (err, data) => {
             if (err) {
                 console.log(err);
+                res.send({
+                    message: err
+                });
             }
             else {
                 if (data === null) {
@@ -121,14 +37,17 @@ class UserController {
                 }
                 else {
                     console.log(data);
-                    bcrypt.compare(req.body.password, data.password, (err1: Error, result) => {
-                        if (err1) {
-                            console.log(err1);
+                    bcrypt.compare(req.body.password, data.password, (error: Error, result: boolean) => {
+                        if (error) {
+                            console.log(error);
+                            res.send({
+                                message: error
+                            });
                         }
                         else {
                             if (result === true) {
                                 const token = jwt.sign({data}, secretkey, {
-                                    expiresIn : '15m'
+                                    expiresIn : '15d'
                                 });
                                 res.send({
                                     message: 'Successfully created token',

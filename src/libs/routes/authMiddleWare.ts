@@ -22,7 +22,7 @@ export default (moduleName: string, permissionType: string) => (req: Request, re
         }
     }
     catch (err) {
-        next({
+        res.send({
                 error: err,
             message: 'Unauthenticate Access',
             code: 404
