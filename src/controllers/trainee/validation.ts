@@ -6,21 +6,21 @@ const config = {
             required: false,
             string: true,
             in: ['body'],
-            error: errorMessage.Occured,
+            error: errorMessage.occured,
             message: errorMessage.role,
         },
         name: {
             required: false,
             string: true,
             in: ['body'],
-            error: errorMessage.Occured,
+            error: errorMessage.occured,
             message: errorMessage.name,
         },
         createdBy: {
             required: false,
             string: true,
             in: ['body'],
-            error: errorMessage.Occured,
+            error: errorMessage.occured,
             message: errorMessage.name,
         }
     },
@@ -29,35 +29,35 @@ const config = {
             required: true,
             string: true,
             in: ['body'],
-            error: errorMessage.Occured,
+            error: errorMessage.occured,
             message: errorMessage.name,
         },
         role: {
             required: true,
             string: true,
             in: ['body'],
-            error: errorMessage.Occured,
+            error: errorMessage.occured,
             message: errorMessage.name
         },
         email: {
             required: true,
             string: true,
             in: ['body'],
-            error: errorMessage.Occured,
+            error: errorMessage.occured,
             message: errorMessage.name,
         },
         password: {
             required: true,
             string: true,
             in: ['body'],
-            error: errorMessage.Occured,
+            error: errorMessage.occured,
             message: errorMessage.name,
         },
         createdBy: {
             required: true,
             string: true,
             in: ['body'],
-            error: errorMessage.Occured,
+            error: errorMessage.occured,
             message: errorMessage.name,
         }
     },
@@ -72,35 +72,35 @@ const config = {
             required: false,
             string: true,
             in: ['body'],
-            error: errorMessage.Occured,
+            error: errorMessage.occured,
             message: errorMessage.name,
         },
         updatedBy: {
             required: true,
             string: true,
             in: ['body'],
-            error: errorMessage.Occured,
+            error: errorMessage.occured,
             message: errorMessage.name,
         },
         email: {
             required: false,
             string: true,
             in: ['body'],
-            error: errorMessage.Occured,
+            error: errorMessage.occured,
             message: errorMessage.name,
         },
         password: {
             required: false,
             string: true,
             in: ['body'],
-            error: errorMessage.Occured,
+            error: errorMessage.occured,
             message: errorMessage.name,
         },
         role: {
             required: false,
             string: true,
             in: ['body'],
-            error: errorMessage.Occured,
+            error: errorMessage.occured,
             message: errorMessage.name,
         }
     },
@@ -141,6 +141,12 @@ const config = {
             in: ['query'],
             errorMessage: errorMessage.limit,
         },
+        sortBy: {
+            required: false,
+            string: true,
+            in: ['query'],
+            errorMessage: errorMessage.sortBy
+        }
     }
 };
 

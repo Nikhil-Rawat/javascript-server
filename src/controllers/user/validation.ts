@@ -6,20 +6,20 @@ const config = {
             required: true,
             string: true,
             in: ['body'],
-            custom(value) {
+            custom(value: any) {
                 console.log('Value', value);
                 throw {
-                    error: errorMessage.Occured,
-                    message: errorMessage.id,
+                    error: errorMessage.occured,
+                    message: errorMessage.password,
                 };
             },
         },
         email: {
             required: true,
             string: true,
-            regex: /^[a-zA-Z0-9+_.-]+@+[a-zA-Z]+.+[a-zA-Z]+$/,
+            regex: /\b[a-zA-Z0-9+_.-]+@[a-z]+\.[a-z]{2,}\b/,
             in: ['body'],
-            errorMessage: errorMessage.name,
+            errorMessage: errorMessage.email,
         },
     },
     get: {

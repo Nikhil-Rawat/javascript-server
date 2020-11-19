@@ -2,8 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 
 
 export default (Validation) => (req: Request, res: Response, next: NextFunction ) => {
-    console.log(req.body);
-    console.log(req.query);
+    // console.log(req.body);
+    // console.log(req.query);
     const error = [];
     Object.keys(Validation).forEach((keys) => {
         const inObject = Validation[keys];
@@ -22,6 +22,8 @@ export default (Validation) => (req: Request, res: Response, next: NextFunction 
                 return;
             }
             value = value || inObject.default;
+            res.locals[keys] = value;
+            // console.log(value);
             if (!value) {
                 return;
             }
@@ -54,7 +56,7 @@ export default (Validation) => (req: Request, res: Response, next: NextFunction 
                 error.push(a);
                 return;
             }
-            console.log(`inside ${keys} values are ${value}`);
+            console.log(`Processing ${keys}: ${value}`);
         });
     });
     if (error.length) {

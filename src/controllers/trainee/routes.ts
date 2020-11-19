@@ -11,13 +11,13 @@ traineeRouter.route('/create')
     .post(validationHandler(config.create), authMiddleWare('getUsers', 'write'), TraineeController.createUser);
 
 traineeRouter.route('/delete')
-    .get(validationHandler(config.traineedelete), authMiddleWare('getUsers', 'deleTe'), TraineeController.deleteAt);
+    .get(validationHandler(config.traineedelete), authMiddleWare('getUsers', 'read'), TraineeController.deleteAt);
 
 traineeRouter.route('/update')
-    .post(validationHandler(config.update), authMiddleWare('getUsers', 'deleTe'), TraineeController.update);
+    .post(validationHandler(config.update), authMiddleWare('getUsers', 'read'), TraineeController.update);
 
 traineeRouter.route('/getall')
-    .get(validationHandler(config.get), authMiddleWare('getUsers', 'read'), TraineeController.getAll);
+    .get( validationHandler(config.get), authMiddleWare('getUsers', 'read'), TraineeController.getAll);
 
 traineeRouter.route('/searchOne')
     .post(validationHandler(config.searchOne), authMiddleWare('getUsers', 'read'), TraineeController.searchOne);

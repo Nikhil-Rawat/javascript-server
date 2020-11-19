@@ -1,5 +1,5 @@
 import { Response, Request, NextFunction } from 'express';
-import { ControllerResponse } from '../../libs/constant';
+import { responseController } from '../../libs/constant';
 import UserRepository from '../../repositories/user/UserRepository';
 import * as bcrypt from 'bcrypt';
 
@@ -15,29 +15,38 @@ class TraineeController {
     }
     public async getAll(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log(ControllerResponse.InsidegetAll);
-            const Userepository: UserRepository = new UserRepository();
-            await Userepository.getAll({}, (err: Error, data: []) => {
-                if (err) {
-                    console.log(err);
-                }
-                else {
+            const Skip = res.locals.skip;
+            const Limit = res.locals.limit;
+            const skip = parseInt(Skip.toString(), 10);
+            const limit = parseInt(Limit.toString(), 10);
+            const sortBy = req.query.sortBy || '';
+            console.log(responseController.InsidegetAll);
+            if (sortBy === '' || sortBy === 'name' || sortBy === 'email') {
+                const Userepository: UserRepository = new UserRepository();
+                const data = await Userepository.getAll({}, skip, limit, sortBy);
+                const TotalCount = await Userepository.totalCount();
                     res.status(200).send({
-                        message: ControllerResponse.fetched,
+                        message: responseController.fetched,
                         data: [
                             {
-                                Total_Count: data.length,
+                                Page_Count: data.length,
+                                Total_Count: TotalCount,
                                 database: data
                             }
                         ],
-                        status: ControllerResponse.ResponseSuccess
+                        status: responseController.responseSuccess
                     });
-                }
-            });
+            }
+            else {
+                console.log(responseController.InvalidSorting);
+                res.send( {
+                    message: responseController.sortingUnavailable
+                });
+            }
         }
         catch (err) {
             return next({
-                error: ControllerResponse.ResponseBadRequest,
+                error: responseController.responseInvalidRequest,
                 message: err,
                 status: 400
             });
@@ -45,7 +54,7 @@ class TraineeController {
     }
     public async searchOne(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log(ControllerResponse.InsidefindOne);
+            console.log(responseController.InsidefindOne);
             const Userepository: UserRepository = new UserRepository();
             await Userepository.findOne({email: req.body.email}, (err: Error, data: []) => {
                 if (err) {
@@ -53,20 +62,20 @@ class TraineeController {
                 }
                 else {
                     res.status(200).send({
-                        message: ControllerResponse.fetched,
+                        message: responseController.fetched,
                         Data: [
                             {
                                email : data
                             }
                         ],
-                        status: ControllerResponse.ResponseSuccess
+                        status: responseController.responseSuccess
                     });
                 }
             });
         }
         catch (err) {
             return next({
-                error: ControllerResponse.ResponseBadRequest,
+                error: responseController.responseInvalidRequest,
                 message: err,
                 status: 400
             });
@@ -74,7 +83,7 @@ class TraineeController {
     }
     public async search(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log(ControllerResponse.Insidefind);
+            console.log(responseController.Insidefind);
             const Userepository: UserRepository = new UserRepository();
             await Userepository.find(req.body, (err: Error, data: []) => {
                 if (err) {
@@ -82,20 +91,20 @@ class TraineeController {
                 }
                 else {
                     res.status(200).send({
-                        message: ControllerResponse.fetched,
+                        message: responseController.fetched,
                         Database: [
                             {
                                Data : data
                             }
                         ],
-                        status: ControllerResponse.ResponseSuccess
+                        status: responseController.responseSuccess
                     });
                 }
             });
         }
         catch (err) {
             return next({
-                error: ControllerResponse.ResponseBadRequest,
+                error: responseController.responseInvalidRequest,
                 message: err,
                 status: 400
             });
@@ -103,73 +112,100 @@ class TraineeController {
     }
     public async createUser(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log(ControllerResponse.insideCreateUser);
-            await bcrypt.hash(req.body.password, 10, (err: Error, hash: string) => {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    req.body.password = hash;
-                    const usercreate = new UserRepository();
-                    if (usercreate.createV(req.body)) {
-                        console.log(ControllerResponse.createUser);
-                        res.status(200).send({
-                            message: ControllerResponse.createUser,
-                            data: {
-                                name: req.body.name
-                            },
-                            status: 200
-                        });
-                    }
-                    else {
-                        res.send({
-                            message: 'User not created'
-                        });
-                    }
-                }
+            console.log(responseController.createUser);
+            const hash = await bcrypt.hash(req.body.password, 10);
+            req.body.password = hash;
+            const usercreate = new UserRepository();
+            await usercreate.createV(req.body);
+            console.log(`${responseController.userCreated}: ${req.body.name}`);
+            res.status(200).send({
+                message: responseController.userCreated,
+                data: {
+                    name: req.body.name
+                },
+                status: 200
             });
         }
         catch (err) {
             return next({
                 error: err,
-                message: ControllerResponse.ResponseBadRequest,
+                message: responseController.responseInvalidRequest,
                 status: 400
             });
         }
     }
-    deleteAt(req: Request, res: Response, next: NextFunction ) {
+    public async deleteAt(req: Request, res: Response, next: NextFunction ) {
         try {
             const userRepository: UserRepository = new UserRepository();
-            userRepository.delete(req.body.originalId, req.body.deletedBy);
+            await userRepository.delete(req.body.originalId, req.body.deletedBy);
+            console.log(responseController.deleted);
                 res.status(200).send({
-                    message: ControllerResponse.deleted,
-                    data: [
-                        {
-                            Deleted_By: req.body.name
-                        }
-                    ],
-                    status: ControllerResponse.ResponseSuccess,
+                    message: responseController.deleted,
+                    data: {
+                            Deleted_Id: req.body.originalId,
+                            Deleted_By: req.body.deletedBy
+                        },
+                    status: responseController.responseSuccess,
                 });
         } catch (err) {
             console.log(err);
         }
     }
-    update(req: Request, res: Response, next: NextFunction ) {
+//     public async update(req: Request, res: Response, next: NextFunction ) {
+//         try {
+//             const userRepository = new UserRepository();
+//             const Updateduser = await userRepository.userUpdate(req.body);
+//             if (Updateduser === undefined) {
+//                 res.send({
+//                     Message: 'User not found'
+//                 });
+//             }
+//             else {
+//             res.status(200).send({
+//                 message: ControllerResponse.updated,
+//                 data: [
+//                     {
+//                         Updated_data: req.body
+//                     }
+//                 ],
+//             });
+//         }
+//         }
+//         catch (err) {
+//             console.log(err);
+//         }
+//     }
+// }
+    public async update(req: Request, res: Response, next: NextFunction ) {
         try {
+            if (req.body.password) {
+                const hash = await bcrypt.hash(req.body.password, 10);
+                req.body.password = hash;
+            }
             const userRepository = new UserRepository();
-            userRepository.userUpdate(req.body);
-            res.status(200).send({
-                message: ControllerResponse.updated,
+            const Updateduser = await userRepository.userUpdate(req.body);
+            if (!Updateduser) {
+                res.send({
+                    Message: responseController.notFound
+                });
+            }
+            else {
+                console.log(responseController.updated, `:${req.body.originalId}`);
+                res.status(200).send({
+                message: responseController.updated,
                 data: [
                     {
                         Updated_data: req.body
                     }
                 ],
             });
-        } catch (err) {
+        }
+        }
+        catch (err) {
             console.log(err);
         }
     }
 }
+
 
 export default TraineeController.getInstance();

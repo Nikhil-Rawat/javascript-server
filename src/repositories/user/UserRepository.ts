@@ -23,4 +23,8 @@ export default class UserRepository extends VersioningRepository<IUserModel, mon
     public count() {
         return userModel.countDocuments();
     }
+    public totalCount() {
+        const finalQuery = {deletedAt: undefined};
+        return userModel.countDocuments(finalQuery);
+    }
 }

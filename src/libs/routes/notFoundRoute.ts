@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction, response } from 'express';
+import { route } from '../constant';
 
 export default (req: Request, res: Response, next: NextFunction) => {
     next({
-        error : 'Not found',
+        error : route.routeNotFound,
         code: 404
     } );
 };
