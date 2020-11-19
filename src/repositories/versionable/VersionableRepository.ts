@@ -1,7 +1,5 @@
 import * as mongoose from 'mongoose';
 import { DocumentQuery, Query } from 'mongoose';
-import IUserModel from '../user/IUserModel';
-import * as bcrypt from 'bcrypt';
 
 export default class VersioningRepository<D extends mongoose.Document, M extends mongoose.Model<D>> {
     public static generateObjectId() {
@@ -45,7 +43,6 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
     }
     public async delete(id: string, name: string): Promise<D> {
         const prevoius = await this.findOne({ originalId: id, deletedAt: undefined });
-        console.log(prevoius);
         if (prevoius) {
             return await this.invalidate(id, name);
         }
@@ -55,8 +52,6 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
             originalId: data.originalId,
             deletedAt: {$exists: false}
         });
-
-        console.log('previous: ', previous);
         if (previous) {
             await this.invalidate(data.originalId, data.updatedBy);
         }

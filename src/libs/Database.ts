@@ -3,17 +3,6 @@ import { DatabaseMongo } from './constant';
 import { default as seedData } from './seedData';
 
 class Database {
-    // static open(mongoURL, callback) {
-    //     console.log(mongoResponse.openMethod);
-    //     mongoose.connect(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
-    //         if (err) {
-    //             console.log(err);
-    //             callback(err);
-    //             return;
-    //         }
-    //         callback(undefined);
-    //     });
-    // }
     public static open(mongourl: string) {
         return new Promise((resolve, reject) => {
             console.log(DatabaseMongo.openMethod);

@@ -41,19 +41,6 @@ class Server {
 
     run() {
         const { app, configuration: { port, mongourl } } = this;
-        // Database.open(mongourl, (err) => {
-        //     if (err) {
-        //         console.log(err);
-        //         return;
-        //     }
-        //     app.listen(port, err => {
-        //         if (err) {
-        //             console.log(`Error: app failed  ${err}`);
-        //         }
-        //         console.log(`app is running on port ${port}`);
-        //     });
-        //     console.log(mongoResponse.success);
-        // });
         Database.open(mongourl)
             .then((res) => {
                 console.log(DatabaseMongo.success);
