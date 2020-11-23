@@ -16,14 +16,50 @@ class TraineeController {
     public async getAll(req: Request, res: Response, next: NextFunction) {
         try {
             const Skip = res.locals.skip;
-            const Limit = res.locals.limit;
             const skip = parseInt(Skip.toString(), 10);
+
+            const Limit = res.locals.limit;
             const limit = parseInt(Limit.toString(), 10);
-            const sortBy = req.query.sortBy || '';
+
+            const sortBy = res.locals.sortBy;
+
+            const Search = req.query.search as string ||  '';
+            console.log(Search);
+
+            let value = '';
+            let key = '';
+
+            const regexName = /^[a-z]+$/i;
+            const regexEmail = /\b[a-zA-Z0-9+_.-]+@[a-z]+\.[a-z]{2,}\b/;
+
+            if (req.query.search) {
+                if (regexName.test(Search)) {
+                    value  = Search;
+                    key = 'name';
+                }
+                else if (regexEmail.test(Search)) {
+                    value = Search;
+                    key = 'email';
+                }
+                else {
+                    console.log(responseController.responseInvalidRequest);
+                }
+            }
+            else {
+                key = undefined;
+                value = undefined;
+            }
+            const SortOrder = res.locals.sortorder;
+            const sortOrder = parseInt(SortOrder.toString(), 10);
             console.log(responseController.InsidegetAll);
-            if (sortBy === '' || sortBy === 'name' || sortBy === 'email') {
+            if (sortBy === '_id' || sortBy === 'name' || sortBy === 'email') {
                 const Userepository: UserRepository = new UserRepository();
-                const data = await Userepository.getAll({}, skip, limit, sortBy);
+                const data = await Userepository.getAll({[key]: value}, skip, limit, sortBy, sortOrder);
+                if (data.length === 0) {
+                    res.send ({
+                        message: `Incoorect ${key}`
+                    });
+                }
                 const TotalCount = await Userepository.totalCount();
                     res.status(200).send({
                         message: responseController.fetched,
@@ -52,64 +88,64 @@ class TraineeController {
             });
         }
     }
-    public async searchOne(req: Request, res: Response, next: NextFunction) {
-        try {
-            console.log(responseController.InsidefindOne);
-            const Userepository: UserRepository = new UserRepository();
-            await Userepository.findOne({email: req.body.email}, (err: Error, data: []) => {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    res.status(200).send({
-                        message: responseController.fetched,
-                        Data: [
-                            {
-                               email : data
-                            }
-                        ],
-                        status: responseController.responseSuccess
-                    });
-                }
-            });
-        }
-        catch (err) {
-            return next({
-                error: responseController.responseInvalidRequest,
-                message: err,
-                status: 400
-            });
-        }
-    }
-    public async search(req: Request, res: Response, next: NextFunction) {
-        try {
-            console.log(responseController.Insidefind);
-            const Userepository: UserRepository = new UserRepository();
-            await Userepository.find(req.body, (err: Error, data: []) => {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    res.status(200).send({
-                        message: responseController.fetched,
-                        Database: [
-                            {
-                               Data : data
-                            }
-                        ],
-                        status: responseController.responseSuccess
-                    });
-                }
-            });
-        }
-        catch (err) {
-            return next({
-                error: responseController.responseInvalidRequest,
-                message: err,
-                status: 400
-            });
-        }
-    }
+    // public async findOne(req: Request, res: Response, next: NextFunction) {
+    //     try {
+    //         console.log(responseController.InsidefindOne);
+    //         const Userepository: UserRepository = new UserRepository();
+    //         await Userepository.findOne({email: req.body.email}, (err: Error, data: []) => {
+    //             if (err) {
+    //                 console.log(err);
+    //             }
+    //             else {
+    //                 res.status(200).send({
+    //                     message: responseController.fetched,
+    //                     Data: [
+    //                         {
+    //                            email : data
+    //                         }
+    //                     ],
+    //                     status: responseController.responseSuccess
+    //                 });
+    //             }
+    //         });
+    //     }
+    //     catch (err) {
+    //         return next({
+    //             error: responseController.responseInvalidRequest,
+    //             message: err,
+    //             status: 400
+    //         });
+    //     }
+    // }
+    // public async find(req: Request, res: Response, next: NextFunction) {
+    //     try {
+    //         console.log(responseController.Insidefind);
+    //         const Userepository: UserRepository = new UserRepository();
+    //         await Userepository.find(req.body, (err: Error, data: []) => {
+    //             if (err) {
+    //                 console.log(err);
+    //             }
+    //             else {
+    //                 res.status(200).send({
+    //                     message: responseController.fetched,
+    //                     Database: [
+    //                         {
+    //                            Data : data
+    //                         }
+    //                     ],
+    //                     status: responseController.responseSuccess
+    //                 });
+    //             }
+    //         });
+    //     }
+    //     catch (err) {
+    //         return next({
+    //             error: responseController.responseInvalidRequest,
+    //             message: err,
+    //             status: 400
+    //         });
+    //     }
+    // }
     public async createUser(req: Request, res: Response, next: NextFunction) {
         try {
             console.log(responseController.createUser);
@@ -151,31 +187,6 @@ class TraineeController {
             console.log(err);
         }
     }
-//     public async update(req: Request, res: Response, next: NextFunction ) {
-//         try {
-//             const userRepository = new UserRepository();
-//             const Updateduser = await userRepository.userUpdate(req.body);
-//             if (Updateduser === undefined) {
-//                 res.send({
-//                     Message: 'User not found'
-//                 });
-//             }
-//             else {
-//             res.status(200).send({
-//                 message: ControllerResponse.updated,
-//                 data: [
-//                     {
-//                         Updated_data: req.body
-//                     }
-//                 ],
-//             });
-//         }
-//         }
-//         catch (err) {
-//             console.log(err);
-//         }
-//     }
-// }
     public async update(req: Request, res: Response, next: NextFunction ) {
         try {
             if (req.body.password) {

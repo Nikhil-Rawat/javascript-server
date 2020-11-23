@@ -1,29 +1,30 @@
-import { errorMessage } from '../../libs/constant';
-
+import { errorMessage, responseController } from '../../libs/constant';
+import { roleValidation, deletedByValidation, originalIdValidation } from '../config';
 const config = {
-    search: {
-        role: {
-            required: false,
-            string: true,
-            in: ['body'],
-            error: errorMessage.occured,
-            message: errorMessage.role,
-        },
-        name: {
-            required: false,
-            string: true,
-            in: ['body'],
-            error: errorMessage.occured,
-            message: errorMessage.name,
-        },
-        createdBy: {
-            required: false,
-            string: true,
-            in: ['body'],
-            error: errorMessage.occured,
-            message: errorMessage.name,
-        }
-    },
+    // find: {
+    //     // role: {
+    //     //     required: false,
+    //     //     string: true,
+    //     //     in: ['body'],
+    //     //     error: errorMessage.occured,
+    //     //     message: errorMessage.role,
+    //     // },
+    //     ...roleValidation,
+    //     name: {
+    //         required: false,
+    //         string: true,
+    //         in: ['body'],
+    //         error: errorMessage.occured,
+    //         message: errorMessage.name,
+    //     },
+    //     createdBy: {
+    //         required: false,
+    //         string: true,
+    //         in: ['body'],
+    //         error: errorMessage.occured,
+    //         message: errorMessage.name,
+    //     }
+    // },
     create: {
         name: {
             required: true,
@@ -104,14 +105,14 @@ const config = {
             message: errorMessage.name,
         }
     },
-    searchOne: {
-        email: {
-            required: true,
-            string: true,
-            errorMessage: errorMessage.email,
-            in: ['body'],
-        }
-    },
+    // findOne: {
+    //     email: {
+    //         required: true,
+    //         string: true,
+    //         errorMessage: errorMessage.email,
+    //         in: ['body'],
+    //     }
+    // },
     traineedelete: {
         deletedBy: {
             required: true,
@@ -125,6 +126,20 @@ const config = {
             errorMessage: errorMessage.id,
             in: ['body']
         }
+        // ...deletedByValidation,
+        // ...originalIdValidation
+    },
+    deletedByValidation: {
+        required: true,
+        string: true,
+        errorMessage: errorMessage.deltedBy,
+        in: ['body']
+    },
+    originalIdValidation: {
+        required: true,
+        string: true,
+        errorMessage: errorMessage.id,
+        in: ['body']
     },
     get: {
         skip: {
@@ -144,8 +159,21 @@ const config = {
         sortBy: {
             required: false,
             string: true,
+            default: '_id',
             in: ['query'],
             errorMessage: errorMessage.sortBy
+        },
+        sortorder: {
+            required: false,
+            default: -1,
+            in: ['query'],
+            errorMessage: errorMessage.sortOrder
+        },
+        search: {
+            required: false,
+            string: true,
+            in: ['query'],
+            errorMessage: 'Incorrect email or name'
         }
     }
 };

@@ -26,7 +26,8 @@ export const errorMessage = {
     email: 'Wrong or invalid email',
     deltedBy: 'DeletedBy name is required',
     role: 'Role is required',
-    sortBy: 'sortBy required'
+    sortBy: 'sortBy required',
+    sortOrder: 'invalid Sort Order'
 };
 
 export const DatabaseMongo = {
