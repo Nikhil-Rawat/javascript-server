@@ -9,10 +9,10 @@ export default (moduleName: string, permissionType: string) => (req: Request, re
         const auth = 'authorization';
         const token = req.headers[auth];
         const decodeUser = jwt.verify(token, configuration.secretkey);
-        console.log(`${decodeUser.data.name} Profile:\n`, decodeUser.data);
-        if (hasPermission(moduleName, decodeUser.data.role, permissionType)) {
-            console.log(`${decodeUser.data.name} has ${permissionType} permission for ${moduleName} module.`);
-            res.locals.val = decodeUser.data;
+        console.log(`${decodeUser.docs.name} Profile:\n`, decodeUser.docs);
+        if (hasPermission(moduleName, decodeUser.docs.role, permissionType)) {
+            console.log(`${decodeUser.docs.name} has ${permissionType} permission for ${moduleName} module.`);
+            res.locals.val = decodeUser.docs;
             next();
         }
         else {

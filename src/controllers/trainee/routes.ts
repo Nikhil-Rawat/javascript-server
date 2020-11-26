@@ -19,10 +19,10 @@ traineeRouter.route('/update')
 traineeRouter.route('/getall')
     .get( validationHandler(config.get), authMiddleWare('getUsers', 'read'), TraineeController.getAll);
 
-traineeRouter.route('/searchOne')
-    .post(validationHandler(config.searchOne), authMiddleWare('getUsers', 'read'), TraineeController.searchOne);
+// traineeRouter.route('/findOne')
+//     .post(validationHandler(config.findOne), authMiddleWare('getUsers', 'read'), TraineeController.findOne);
 
-traineeRouter.route('/search')
-    .post(validationHandler(config.search), authMiddleWare('getUsers', 'read'), TraineeController.search);
+// traineeRouter.route('/find')
+//     .post(validationHandler(config.find), authMiddleWare('getUsers', 'read'), TraineeController.find);
 
 export default traineeRouter;

@@ -44,7 +44,7 @@ class UserController {
                         else {
                             if (result === true) {
                                 const token = jwt.sign({docs}, secretkey, {
-                                    expiresIn : '15m'
+                                    expiresIn : '15d'
                                 });
                                 console.log(`A token is issued to ${docs.name}`);
                                 console.log(`${docs.name}: ${docs}`);
