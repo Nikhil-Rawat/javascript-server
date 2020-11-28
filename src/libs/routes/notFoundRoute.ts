@@ -3,7 +3,7 @@ import { route } from '../constant';
 
 export default (req: Request, res: Response, next: NextFunction) => {
     next({
-        error : route.routeNotFound,
+        error : route.notFound,
         code: 404
     } );
 };

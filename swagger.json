@@ -1,0 +1,687 @@
+{
+    "swagger": "2.0",
+    "info": {
+    "version": "1.0.0",
+    "title": "My CRUD Project",
+    "description": "My CRUD Project Application API",
+    "license": {
+    "name": "Successive Technology",
+    "url": "https://successive.tech/"
+    }
+    },
+    "host": "localhost:9000",
+    "basePath": "/",
+    "tags": [
+    {
+    "name": "Users",
+    "description": "API for users in the system"
+    },
+    {
+        "name":"Trainee",
+        "description": "API for trainee in the system"
+    }
+    ],
+    "schemes": [
+    "http"
+    ],
+    "consumes": [
+    "application/json"
+    ],
+    "produces": [
+    "application/json"
+    ],
+    "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "name":"Authorization",
+      "in": "header",
+      "description": "Enter your bearer token"
+    }},
+    "paths": {
+        "/api/trainee/getall": {
+            "get": {
+                "security" : [
+                    {
+                    "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "skip",
+                        "in": "query",
+                        "type": "number",
+                        "required": false
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "type": "number",
+                        "required": false
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "sortBy",
+                        "in": "query",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "sortorder",
+                        "in": "query",
+                        "type": "number",
+                        "required": false
+                    }
+                ],
+                "tags": [
+                    "Trainee"
+                ],
+                "summary": "Fetch all the data from database",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status" : {
+                                    "type": "string",
+                                    "example": "OK"
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Successfully Fetched Trainees"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "Page_count": {
+                                            "type": "number",
+                                            "example": "4"
+                                        },
+                                        "Total_count": {
+                                            "type": "number",
+                                            "example": "8"
+                                        },
+                                        "records": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "_id": {
+                                                        "type": "string",
+                                                        "example": "5c6c47447740654f0915fac8"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Trainee"
+                                                    },
+                                                    "role": {
+                                                        "type": "string",
+                                                        "example": "trainee"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "trainee@successive.tech"
+                                                    },
+                                                    "originalId": {
+                                                        "type": "string",
+                                                        "example": "5c6c47447740654f0915fac8"
+                                                    },
+                                                    "createdAt": {
+                                                        "type": "string",
+                                                        "example": "2019-02-19T18:15:11.778Z"
+                                                    },
+                                                    "createdBy": {
+                                                        "type": "string",
+                                                        "example": "admin"
+                                                    },
+                                                    "_v": {
+                                                        "type": "number",
+                                                        "example": "0"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Request Failed",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Invalid Input"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Unauthorized"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthenticate",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Unauthenticated"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        },
+        "/api/trainee/create": {
+            "post": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "create",
+                        "in":"body",
+                        "required": true,
+                        "schema": {
+                            "type":"object",
+                            "properties": {
+                                "name": {
+                                    "type":"string",
+                                    "example": "Trainee"
+                                },
+                                "email": {
+                                    "type":"string",
+                                    "example": "trainee@successive.tech"
+                                },
+                                "role": {
+                                    "type":"string",
+                                    "example": "trainee"
+                                },
+                                "password": {
+                                    "type":"string",
+                                    "example": "trainee0211"
+                                },
+                                "createdBy": {
+                                    "type":"string",
+                                    "example": "admin"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "tags": [
+                    "Trainee"
+                ],
+                "summary": "Create new user in the database",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "OK"
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Trainee Created Successfully"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "newTrainee"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "newtrainee@successive.tech"
+                                        },
+                                        "role": {
+                                            "type": "string",
+                                            "example": "trainee"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Request Failed",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Trainee Creation Failed"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Unauthorized"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthenticate",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Unauthenticated"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/trainee/delete": {
+            "delete": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "delete",
+                        "in":"body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "originalId": {
+                                    "type": "string",
+                                    "example": "5c6d69cb398e74776848847b"
+                                },
+                                "deletedBy": {
+                                    "type":"string",
+                                    "example": "admin"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "tags": [
+                    "Trainee"
+                ],
+                "summary": "Delete user from the database",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "OK"
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Trainee Deleted Successfully"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "originalId": {
+                                            "type": "string",
+                                            "example": "5c6d69cb398e74776848847b"
+                                        },
+                                        "deletedBy": {
+                                            "type": "string",
+                                            "example": "admin"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Request Failed",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Request Failed"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Unauthorized"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthenticate",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Unauthenticated"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/trainee/update": {
+            "put": {
+                "security": [
+                    {
+                        "bearerAuth" : []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "Update",
+                        "in":"body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "originalId": {
+                                    "type": "string",
+                                    "example": "5c6d69cb398e74776848847b"
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "UpdatedTrainee"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "UpdatedEmail@successive.tech"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "UpdatedPassword"
+                                },
+                                "updatedBy": {
+                                    "type": "string",
+                                    "example": "admin"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "tags": [
+                    "Trainee"
+                ],
+                "summary": "Update user information in database",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "OK"
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Trainee Updated Successfully"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "5c6d69cb398e74776848847b"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Request Failed",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Request Failed"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Unauthorized"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthenticate",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Unauthenticated"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/login": {
+            "post": {
+                "parameters": [
+                    {
+                        "name": "login",
+                        "in":"body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                "type": "string",
+                                "example": "abc@xyz.com"
+                                },
+                                "password": {
+                                "type": "string",
+                                "example": "abc123"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "login user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "OK"
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Authorization Token"
+                                },
+                                "data": {
+                                    "type": "string",
+                                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNmM0NzQ0Nzc0MDY1NGYwOTE1ZmFjNyIsImlhdCI6MTU1MDY3NDAxOX0.CgO7FlBHXuttmqM_Sj9AvtzEYZ9yU9GmNJeN60ihsVE"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Request Failed",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Invalid Email"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/me": {
+            "get": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "skip",
+                        "in": "query",
+                        "type": "number",
+                        "required": false
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "type": "number",
+                        "required": false
+                    }
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Profile of login user",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "success"
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Profile"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "_id":  {
+                                            "type": "string",
+                                            "example": "5c6c47447740654f0915fac7"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Head Trainer"
+                                        },
+                                        "role": {
+                                            "type": "string",
+                                            "example": "head-trainer"
+                                        },
+                                        "email" :{
+                                            "type": "string",
+                                            "example": "headtrainer@successive.tech"
+                                        },
+                                        "originalId": {
+                                            "type": "string",
+                                            "example": "5c6c47447740654f0915fac7"
+                                        },
+                                        "createdBy": {
+                                            "type": "string",
+                                            "example": "admin"
+                                        },
+                                        "createdAt": {
+                                            "type": "string",
+                                            "example": "2019-02-19T18:13:24.620Z"
+                                        },
+                                        "_v": {
+                                            "type": "string",
+                                            "example": "0"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Unauthorized"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthenticate",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Unauthenticated"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

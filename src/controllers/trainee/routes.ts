@@ -8,21 +8,15 @@ const traineeRouter = Router();
 
 
 traineeRouter.route('/create')
-    .post(validationHandler(config.create), authMiddleWare('getUsers', 'write'), TraineeController.createUser);
+    .post(validationHandler(config.post), authMiddleWare('getUsers', 'write'), TraineeController.create);
 
 traineeRouter.route('/delete')
-    .get(validationHandler(config.traineedelete), authMiddleWare('getUsers', 'read'), TraineeController.deleteAt);
+    .delete(validationHandler(config.delete), authMiddleWare('getUsers', 'deleTe'), TraineeController.delete);
 
 traineeRouter.route('/update')
-    .post(validationHandler(config.update), authMiddleWare('getUsers', 'read'), TraineeController.update);
+    .put(validationHandler(config.put), authMiddleWare('getUsers', 'write'), TraineeController.update);
 
 traineeRouter.route('/getall')
-    .get( validationHandler(config.get), authMiddleWare('getUsers', 'read'), TraineeController.getAll);
-
-// traineeRouter.route('/findOne')
-//     .post(validationHandler(config.findOne), authMiddleWare('getUsers', 'read'), TraineeController.findOne);
-
-// traineeRouter.route('/find')
-//     .post(validationHandler(config.find), authMiddleWare('getUsers', 'read'), TraineeController.find);
+    .get( validationHandler(config.get), authMiddleWare('getUsers', 'read'), TraineeController.read);
 
 export default traineeRouter;

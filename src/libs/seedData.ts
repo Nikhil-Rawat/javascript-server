@@ -24,7 +24,7 @@ export default () => {
                         });
                         userRepository.createV({
                             name: 'Trainer',
-                            role: 'trainee',
+                            role: 'trainer',
                             email: 'trainer@successive.tech',
                             password: hash,
                             createdBy: 'Admin'
