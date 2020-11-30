@@ -1,4 +1,4 @@
-import { errorMessage } from '../../libs/constant';
+import { Invalid, Required } from '../../libs/constant';
 
 const config = {
     login: {
@@ -9,8 +9,7 @@ const config = {
             custom(value: any) {
                 console.log('Value', value);
                 throw {
-                    error: errorMessage.occured,
-                    message: errorMessage.password,
+                    error: Invalid.password,
                 };
             },
         },
@@ -19,7 +18,7 @@ const config = {
             string: true,
             regex: /\b[a-zA-Z0-9+_.-]+@[a-z]+\.[a-z]{2,}\b/,
             in: ['body'],
-            errorMessage: errorMessage.email,
+            error: Invalid.email,
         },
     },
     get: {
@@ -28,14 +27,14 @@ const config = {
             default: 0,
             number: true,
             in: ['query'],
-            errorMessage: errorMessage.skip,
+            error: Invalid.skip,
         },
         limit: {
             required: false,
             default: 10,
             number: true,
             in: ['query'],
-            errorMessage: errorMessage.limit,
+            error: Invalid.limit,
         },
     }
 };

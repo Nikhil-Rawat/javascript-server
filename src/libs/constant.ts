@@ -16,51 +16,69 @@ export const permissions: IPermissions = {
 };
 
 
-export const errorMessage = {
-    limit: 'Limit is invalid',
-    skip: 'Skip is invalid',
-    id: 'Id is required',
-    name: 'Name is required',
-    occured: 'Error Occured',
-    password: 'Invalid password',
-    email: 'Wrong or invalid email',
-    deltedBy: 'DeletedBy name is required',
-    role: 'Role is required',
-    sortBy: 'sortBy required',
-    sortOrder: 'invalid Sort Order'
-};
-
 export const DatabaseMongo = {
     success: 'Successfully connected to mongo',
     openMethod: 'Processing Open method for mongoDB connection',
     disconnectMethod: 'Inside disconnect method'
 };
 
-export const responseController = {
-    InsidegetAll: 'Inside getAll method',
-    InsidefindOne: 'Inside findOne method',
-    Insidefind: 'Inside find method',
-    Insidedelete: 'inside delete method',
-    createUser: 'Creating new User',
-    userCreated: 'User created successfully',
-    responseSuccess: 'Success',
-    responseInvalidRequest: 'Invalid request',
-    fetched: 'User fetched successfully',
-    updated: 'User updated successfully',
-    deleted: 'User deleted successfully',
-    InvalidSorting: 'Invalid sorting argument',
-    sortingUnavailable: 'Sorting is only avaible on name and email',
-    Unauthorized: 'Unauthorized user',
-    Unauthenticated: 'Unauthenticate Access',
-    tokenCreated: 'Successfully created token',
-    notFound: 'User not found'
+export const message = {
+    badRequest: 'Bad Request',
+    ok: 'OK',
+    failed: 'Request Failed'
+};
+
+export const Auth = {
+    Unauthorized: 'Unauthorized Access',
+    Unauthenticated: 'Unauthenticated Access'
 };
 
 export const route = {
-    routeNotFound: 'Route not found'
+    notFound: 'Route not found'
 };
 
 export const dataSeeding = {
     seeding: 'Data seeding in progress',
     seeded: 'Data is seeded sucessfully'
 };
+
+export const Invalid = {
+    limit: 'Invalid limit',
+    skip: 'Invalid skip',
+    password: 'Invalid password',
+    email: 'Invalid email',
+    sortOrder: 'Invalid sortOrder',
+    input: 'Invalid input',
+    id: 'Invalid Id',
+    sortBy: 'Invalid Sorting argument',
+    token: 'Invalid Token'
+};
+
+export const Required = {
+    id: 'Required id',
+    name: 'Required name',
+    role: 'Required role',
+    sortBy: 'Required sortBy',
+    email: 'Required email',
+    password: 'Required password',
+    createdBy: 'Required createdBy',
+    deletedBy: 'Required deletedBy',
+    updatedBy: 'Required updatedBy'
+};
+
+export const Inside = {
+    getall: 'Inside getall route',
+    create: 'Inside create route',
+    delete: 'Inside delete route',
+    update: 'Inside update route',
+    login: 'Inside login route',
+    me: 'Inside me route'
+};
+
+export const success = {
+    fetched: 'Successfully Fetched Trainees',
+    updated: 'Trainee Updated Successfully',
+    deleted: 'Trainee Deleted Successfully',
+    created: 'Trainee Created Successfully'
+};
+

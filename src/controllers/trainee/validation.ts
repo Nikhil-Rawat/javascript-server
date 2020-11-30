@@ -1,145 +1,88 @@
-import { errorMessage, responseController } from '../../libs/constant';
-import { roleValidation, deletedByValidation, originalIdValidation } from '../config';
+import { Invalid, Required } from '../../libs/constant';
 const config = {
-    // find: {
-    //     // role: {
-    //     //     required: false,
-    //     //     string: true,
-    //     //     in: ['body'],
-    //     //     error: errorMessage.occured,
-    //     //     message: errorMessage.role,
-    //     // },
-    //     ...roleValidation,
-    //     name: {
-    //         required: false,
-    //         string: true,
-    //         in: ['body'],
-    //         error: errorMessage.occured,
-    //         message: errorMessage.name,
-    //     },
-    //     createdBy: {
-    //         required: false,
-    //         string: true,
-    //         in: ['body'],
-    //         error: errorMessage.occured,
-    //         message: errorMessage.name,
-    //     }
-    // },
-    create: {
+    post: {
         name: {
             required: true,
             string: true,
             in: ['body'],
-            error: errorMessage.occured,
-            message: errorMessage.name,
+            error: Required.name
         },
         role: {
             required: true,
             string: true,
             in: ['body'],
-            error: errorMessage.occured,
-            message: errorMessage.name
+            error: Required.role
         },
         email: {
             required: true,
             string: true,
             in: ['body'],
-            error: errorMessage.occured,
-            message: errorMessage.name,
+            error: Required.email,
         },
         password: {
             required: true,
             string: true,
             in: ['body'],
-            error: errorMessage.occured,
-            message: errorMessage.name,
+            error: Required.password,
         },
         createdBy: {
             required: true,
             string: true,
-            in: ['body'],
-            error: errorMessage.occured,
-            message: errorMessage.name,
+            error: Required.createdBy,
+            in: ['body']
         }
     },
-    update: {
+    put: {
         originalId: {
             required: true,
             string: true,
-            errorMessage: errorMessage.id,
             in: ['body'],
+            error: Required.id
         },
         name: {
             required: false,
             string: true,
             in: ['body'],
-            error: errorMessage.occured,
-            message: errorMessage.name,
+            error: Required.name,
         },
         updatedBy: {
             required: true,
             string: true,
             in: ['body'],
-            error: errorMessage.occured,
-            message: errorMessage.name,
+            error: Required.updatedBy
         },
         email: {
             required: false,
             string: true,
             in: ['body'],
-            error: errorMessage.occured,
-            message: errorMessage.name,
+            error: Required.email
         },
         password: {
             required: false,
             string: true,
             in: ['body'],
-            error: errorMessage.occured,
-            message: errorMessage.name,
+            error: Required.password
         },
         role: {
             required: false,
             string: true,
             in: ['body'],
-            error: errorMessage.occured,
-            message: errorMessage.name,
+            error: Required.role
         }
     },
-    // findOne: {
-    //     email: {
-    //         required: true,
-    //         string: true,
-    //         errorMessage: errorMessage.email,
-    //         in: ['body'],
-    //     }
-    // },
-    traineedelete: {
+    delete: {
         deletedBy: {
             required: true,
             string: true,
-            errorMessage: errorMessage.deltedBy,
-            in: ['body']
+            in: ['body'],
+            error: Required.deletedBy
         },
         originalId: {
             required: true,
             string: true,
-            errorMessage: errorMessage.id,
-            in: ['body']
+            in: ['body'],
+            error: Required.id
         }
-        // ...deletedByValidation,
-        // ...originalIdValidation
-    },
-    deletedByValidation: {
-        required: true,
-        string: true,
-        errorMessage: errorMessage.deltedBy,
-        in: ['body']
-    },
-    originalIdValidation: {
-        required: true,
-        string: true,
-        errorMessage: errorMessage.id,
-        in: ['body']
     },
     get: {
         skip: {
@@ -147,33 +90,33 @@ const config = {
             default: 0,
             number: true,
             in: ['query'],
-            errorMessage: errorMessage.skip,
+            error: Invalid.skip,
         },
         limit: {
             required: false,
             default: 10,
             number: true,
             in: ['query'],
-            errorMessage: errorMessage.limit,
+            error: Invalid.limit,
         },
         sortBy: {
             required: false,
             string: true,
             default: '_id',
             in: ['query'],
-            errorMessage: errorMessage.sortBy
+            error: Invalid.sortBy
         },
         sortorder: {
             required: false,
             default: -1,
             in: ['query'],
-            errorMessage: errorMessage.sortOrder
+            error: Invalid.sortOrder
         },
         search: {
             required: false,
             string: true,
             in: ['query'],
-            errorMessage: 'Incorrect email or name'
+            error: Invalid.sortBy
         }
     }
 };

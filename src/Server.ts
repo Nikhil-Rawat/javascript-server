@@ -7,6 +7,10 @@ import { DatabaseMongo } from './libs/constant';
 import { mongo } from 'mongoose';
 import IConfig from './config/IConfig';
 import { Response, Request, NextFunction } from 'express';
+// tslint:disable-next-line: no-var-requires
+const swaggerUi = require('swagger-ui-express');
+// tslint:disable-next-line: no-var-requires
+const swaggerDocument = require('../swagger.json');
 
 class Server {
     private app: any;
@@ -26,6 +30,7 @@ class Server {
         app.use('/health-check', (req: Request, res: Response) => {
             res.send('I am ok');
         });
+        app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
         app.use('/api', routes);
 
         app.use(notFoundRoute);

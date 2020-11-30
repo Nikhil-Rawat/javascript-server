@@ -12,12 +12,12 @@ export default (Validation) => (req: Request, res: Response, next: NextFunction 
             const a = {
                 key : '',
                 location: '',
-                errorMessage: ''
+                error: ''
             };
             if ((inObject.required) && !(value)) {
                 a.key = keys;
                 a.location = inside;
-                a.errorMessage = inObject.errorMessage || `${keys} is required`;
+                a.error = inObject.error || `${keys} is required`;
                 error.push(a);
                 return;
             }
@@ -30,14 +30,14 @@ export default (Validation) => (req: Request, res: Response, next: NextFunction 
             if ((inObject.number) && !(Number.isInteger(Number(value)))) {
                 a.key = keys;
                 a.location = inside;
-                a.errorMessage = inObject.errorMessage || `${keys}'s type is not number`;
+                a.error = inObject.error || `${keys}'s type is not number`;
                 error.push(a);
                 return;
             }
             if ((inObject.string) && !(typeof value === 'string')) {
                 a.key = keys;
                 a.location = inside;
-                a.errorMessage = inObject.errorMessage || `${keys}'s type is not string`;
+                a.error = inObject.error || `${keys}'s type is not string`;
                 error.push(a);
                 return;
             }
@@ -45,14 +45,14 @@ export default (Validation) => (req: Request, res: Response, next: NextFunction 
             if ((regex) && !regex.test(value)) {
                 a.key = keys;
                 a.location = inside;
-                a.errorMessage = inObject.errorMessage || `${keys} is invalid`;
+                a.error = inObject.error || `${keys} is invalid`;
                 error.push(a);
                 return;
             }
             if (inObject.isObject && (!(typeof value === 'object') || !(Object.entries(value).length))) {
                 a.key = keys;
                 a.location = inside;
-                a.errorMessage = `${keys} is invalid`;
+                a.error = `${keys} is invalid`;
                 error.push(a);
                 return;
             }

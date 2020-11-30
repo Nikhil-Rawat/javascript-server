@@ -2,7 +2,7 @@ import * as jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction, request } from 'express';
 import hasPermission from '../permission';
 import configuration from '../../config/configuration';
-import { responseController } from '../constant';
+import { Auth, Invalid } from '../constant';
 
 export default (moduleName: string, permissionType: string) => (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -16,17 +16,15 @@ export default (moduleName: string, permissionType: string) => (req: Request, re
             next();
         }
         else {
-            next({
-                error: responseController.Unauthorized,
-                message: 403
+            res.status(401).send( {
+                message: Auth.Unauthorized
             });
         }
     }
     catch (err) {
-        res.send({
-                error: err,
-            message: responseController.Unauthenticated,
-            code: 404
+        res.status(403).send({
+                error: Invalid.token,
+                message: Auth.Unauthenticated
         });
     }
 };

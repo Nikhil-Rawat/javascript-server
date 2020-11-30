@@ -1,5 +1,5 @@
 import { Response, Request, NextFunction } from 'express';
-import { responseController } from '../../libs/constant';
+import { message, Invalid, Inside, success } from '../../libs/constant';
 import UserRepository from '../../repositories/user/UserRepository';
 import * as bcrypt from 'bcrypt';
 
@@ -13,8 +13,9 @@ class TraineeController {
         TraineeController.instance = new TraineeController();
             return TraineeController.instance;
     }
-    public async getAll(req: Request, res: Response, next: NextFunction) {
+    public async read(req: Request, res: Response, next: NextFunction) {
         try {
+            console.log(Inside.getall);
             const Skip = res.locals.skip;
             const skip = parseInt(Skip.toString(), 10);
 
@@ -24,7 +25,6 @@ class TraineeController {
             const sortBy = res.locals.sortBy;
 
             const Search = req.query.search as string ||  '';
-            console.log(Search);
 
             let value = '';
             let key = '';
@@ -42,7 +42,10 @@ class TraineeController {
                     key = 'email';
                 }
                 else {
-                    console.log(responseController.responseInvalidRequest);
+                    console.log(message.badRequest);
+                    res.status(400).send( {
+                        message: Invalid.input
+                    });
                 }
             }
             else {
@@ -51,144 +54,98 @@ class TraineeController {
             }
             const SortOrder = res.locals.sortorder;
             const sortOrder = parseInt(SortOrder.toString(), 10);
-            console.log(responseController.InsidegetAll);
             if (sortBy === '_id' || sortBy === 'name' || sortBy === 'email') {
                 const Userepository: UserRepository = new UserRepository();
                 const data = await Userepository.getAll({[key]: value}, skip, limit, sortBy, sortOrder);
                 if (data.length === 0) {
-                    res.send ({
-                        message: `Incoorect ${key}`
+                    res.status(400).send ({
+                        message: `Invalid ${key}`
                     });
                 }
                 const TotalCount = await Userepository.totalCount();
                     res.status(200).send({
-                        message: responseController.fetched,
+                        status: message.ok,
+                        message: success.fetched,
                         data: [
                             {
                                 Page_Count: data.length,
                                 Total_Count: TotalCount,
-                                database: data
+                                records: data
                             }
-                        ],
-                        status: responseController.responseSuccess
+                        ]
                     });
             }
             else {
-                console.log(responseController.InvalidSorting);
-                res.send( {
-                    message: responseController.sortingUnavailable
+                res.status(400).send( {
+                    message: Invalid.sortBy
                 });
             }
         }
         catch (err) {
-            return next({
-                error: responseController.responseInvalidRequest,
-                message: err,
-                status: 400
+            res.status(400).send( {
+                message: message.badRequest
             });
         }
     }
-    // public async findOne(req: Request, res: Response, next: NextFunction) {
-    //     try {
-    //         console.log(responseController.InsidefindOne);
-    //         const Userepository: UserRepository = new UserRepository();
-    //         await Userepository.findOne({email: req.body.email}, (err: Error, data: []) => {
-    //             if (err) {
-    //                 console.log(err);
-    //             }
-    //             else {
-    //                 res.status(200).send({
-    //                     message: responseController.fetched,
-    //                     Data: [
-    //                         {
-    //                            email : data
-    //                         }
-    //                     ],
-    //                     status: responseController.responseSuccess
-    //                 });
-    //             }
-    //         });
-    //     }
-    //     catch (err) {
-    //         return next({
-    //             error: responseController.responseInvalidRequest,
-    //             message: err,
-    //             status: 400
-    //         });
-    //     }
-    // }
-    // public async find(req: Request, res: Response, next: NextFunction) {
-    //     try {
-    //         console.log(responseController.Insidefind);
-    //         const Userepository: UserRepository = new UserRepository();
-    //         await Userepository.find(req.body, (err: Error, data: []) => {
-    //             if (err) {
-    //                 console.log(err);
-    //             }
-    //             else {
-    //                 res.status(200).send({
-    //                     message: responseController.fetched,
-    //                     Database: [
-    //                         {
-    //                            Data : data
-    //                         }
-    //                     ],
-    //                     status: responseController.responseSuccess
-    //                 });
-    //             }
-    //         });
-    //     }
-    //     catch (err) {
-    //         return next({
-    //             error: responseController.responseInvalidRequest,
-    //             message: err,
-    //             status: 400
-    //         });
-    //     }
-    // }
-    public async createUser(req: Request, res: Response, next: NextFunction) {
+    public async create(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log(responseController.createUser);
+            console.log(Inside.create);
             const hash = await bcrypt.hash(req.body.password, 10);
             req.body.password = hash;
             const usercreate = new UserRepository();
-            await usercreate.createV(req.body);
-            console.log(`${responseController.userCreated}: ${req.body.name}`);
-            res.status(200).send({
-                message: responseController.userCreated,
-                data: {
-                    name: req.body.name
-                },
-                status: 200
-            });
+            const createdTrainee = await usercreate.createV(req.body);
+            if (createdTrainee === null) {
+                res.status(400).send ( {
+                    message: message.failed
+                });
+            }
+            else {
+                res.status(200).send({
+                    status: 'Ok',
+                    message: success.created,
+                    data: {
+                        name: req.body.name,
+                        email: req.body.email,
+                        role: req.body.role
+                    }
+                });
+            }
         }
         catch (err) {
-            return next({
-                error: err,
-                message: responseController.responseInvalidRequest,
-                status: 400
+            res.status(400).send( {
+                message: message.failed
             });
         }
     }
-    public async deleteAt(req: Request, res: Response, next: NextFunction ) {
+    public async delete(req: Request, res: Response, next: NextFunction ) {
         try {
+            console.log(Inside.delete);
             const userRepository: UserRepository = new UserRepository();
-            await userRepository.delete(req.body.originalId, req.body.deletedBy);
-            console.log(responseController.deleted);
-                res.status(200).send({
-                    message: responseController.deleted,
-                    data: {
-                            Deleted_Id: req.body.originalId,
-                            Deleted_By: req.body.deletedBy
-                        },
-                    status: responseController.responseSuccess,
+            const userdeleted = await userRepository.delete(req.body.originalId, req.body.deletedBy);
+            if (!userdeleted) {
+                res.status(400).send({
+                    Message: Invalid.id
                 });
+            }
+            else {
+                res.status(200).send({
+                    status: message.ok,
+                    message: success.deleted,
+                    data: {
+                            originalId: req.body.originalId,
+                            deletedBy: req.body.deletedBy
+                        }
+                });
+            }
         } catch (err) {
-            console.log(err);
+            res.status(400).send( {
+                message: message.failed
+            });
         }
     }
     public async update(req: Request, res: Response, next: NextFunction ) {
         try {
+            console.log(Inside.update);
             if (req.body.password) {
                 const hash = await bcrypt.hash(req.body.password, 10);
                 req.body.password = hash;
@@ -196,27 +153,28 @@ class TraineeController {
             const userRepository = new UserRepository();
             const Updateduser = await userRepository.userUpdate(req.body);
             if (!Updateduser) {
-                res.send({
-                    Message: responseController.notFound
+                res.status(400).send({
+                    Message: Invalid.id
                 });
             }
             else {
-                console.log(responseController.updated, `:${req.body.originalId}`);
                 res.status(200).send({
-                message: responseController.updated,
-                data: [
-                    {
-                        Updated_data: req.body
-                    }
-                ],
-            });
-        }
+                    status: message.ok,
+                    message: success.updated,
+                    data: [
+                        {
+                            Id: req.body.originalId
+                        }
+                    ],
+                });
+            }
         }
         catch (err) {
-            console.log(err);
+            res.status(400).send({
+                message: message.badRequest
+            });
         }
     }
 }
-
 
 export default TraineeController.getInstance();
