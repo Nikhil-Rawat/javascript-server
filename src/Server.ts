@@ -11,6 +11,7 @@ import { Response, Request, NextFunction } from 'express';
 const swaggerUi = require('swagger-ui-express');
 // tslint:disable-next-line: no-var-requires
 const swaggerDocument = require('../swagger.json');
+import * as cors from 'cors';
 
 class Server {
     private app: any;
@@ -31,11 +32,10 @@ class Server {
             res.send('I am ok');
         });
         app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-        app.use('/api', routes);
-
-        app.use(notFoundRoute);
+        app.use('/api', cors(), routes);
 
         app.use(errorHandler);
+        app.use(notFoundRoute);
 
     }
 

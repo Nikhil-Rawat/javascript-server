@@ -1,4 +1,4 @@
-import { Invalid, Required } from '../../libs/constant';
+import { Invalid } from '../../libs/constant';
 
 const config = {
     login: {

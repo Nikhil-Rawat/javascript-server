@@ -16,14 +16,15 @@ export default (moduleName: string, permissionType: string) => (req: Request, re
             next();
         }
         else {
-            res.status(401).send( {
+            next({
+                code: 401,
                 message: Auth.Unauthorized
             });
         }
     }
     catch (err) {
-        res.status(403).send({
-                error: Invalid.token,
+        next({
+                code: 403,
                 message: Auth.Unauthenticated
         });
     }

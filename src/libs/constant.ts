@@ -19,13 +19,14 @@ export const permissions: IPermissions = {
 export const DatabaseMongo = {
     success: 'Successfully connected to mongo',
     openMethod: 'Processing Open method for mongoDB connection',
-    disconnectMethod: 'Inside disconnect method'
+    disconnectMethod: 'Inside disconnect method',
+    maintainceBreak: 'Database Under Maintaince'
 };
 
 export const message = {
     badRequest: 'Bad Request',
     ok: 'OK',
-    failed: 'Request Failed'
+    failed: 'Request Failed',
 };
 
 export const Auth = {
@@ -66,19 +67,21 @@ export const Required = {
     updatedBy: 'Required updatedBy'
 };
 
-export const Inside = {
-    getall: 'Inside getall route',
-    create: 'Inside create route',
-    delete: 'Inside delete route',
-    update: 'Inside update route',
-    login: 'Inside login route',
-    me: 'Inside me route'
+export const InsideRoute = {
+    GET_ALL: 'Inside getall route',
+    CREATE: 'Inside create route',
+    DELETE: 'Inside delete route',
+    UPDATE: 'Inside update route',
+    LOGIN: 'Inside login route',
+    ME: 'Inside me route'
 };
 
-export const success = {
-    fetched: 'Successfully Fetched Trainees',
-    updated: 'Trainee Updated Successfully',
-    deleted: 'Trainee Deleted Successfully',
-    created: 'Trainee Created Successfully'
+export const successResponse = {
+    FETCHED: 'Successfully Fetched Trainees',
+    UPDATED: 'Trainee Updated Successfully',
+    DELETED: 'Trainee Deleted Successfully',
+    CREATED: 'Trainee Created Successfully',
+    LOGIN: 'Login Successfull',
+    USER_DETAILS: 'User details'
 };
 

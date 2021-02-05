@@ -11,7 +11,8 @@ const config = {
             required: true,
             string: true,
             in: ['body'],
-            error: Required.role
+            error: Required.role,
+            default: 'trainee'
         },
         email: {
             required: true,
@@ -26,10 +27,11 @@ const config = {
             error: Required.password,
         },
         createdBy: {
-            required: true,
+            required: false,
             string: true,
             error: Required.createdBy,
-            in: ['body']
+            in: ['body'],
+            default: 'admin',
         }
     },
     put: {
@@ -46,10 +48,11 @@ const config = {
             error: Required.name,
         },
         updatedBy: {
-            required: true,
+            required: false,
             string: true,
             in: ['body'],
-            error: Required.updatedBy
+            error: Required.updatedBy,
+            default: 'admin'
         },
         email: {
             required: false,
@@ -72,15 +75,16 @@ const config = {
     },
     delete: {
         deletedBy: {
-            required: true,
+            required: false,
             string: true,
             in: ['body'],
-            error: Required.deletedBy
+            error: Required.deletedBy,
+            default: 'admin'
         },
-        originalId: {
+        id: {
             required: true,
             string: true,
-            in: ['body'],
+            in: ['params'],
             error: Required.id
         }
     },

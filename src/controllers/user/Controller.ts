@@ -1,7 +1,7 @@
 import { Response, Request, NextFunction } from 'express';
 import UserRepository from '../../repositories/user/UserRepository';
 import configuration from '../../config/configuration';
-import { message, Invalid, Inside } from '../../libs/constant';
+import { message, Invalid, InsideRoute, DatabaseMongo, successResponse } from '../../libs/constant';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 
@@ -17,13 +17,14 @@ class UserController {
     }
     public async login(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log(Inside.login);
+            console.log(InsideRoute.LOGIN);
             const secretkey = configuration.secretkey;
             const userrepository = new UserRepository();
             const docs = await userrepository.findOne({email: req.body.email});
             if (docs === null) {
                 console.log(Invalid.email);
-                res.status(400).send({
+                next({
+                    code: 400,
                     message:  Invalid.email
                 });
             }
@@ -31,36 +32,37 @@ class UserController {
                 bcrypt.compare(req.body.password, docs.password, (error: Error, result: boolean) => {
                     if (result) {
                         const token = jwt.sign({docs}, secretkey, {
-                            expiresIn : '15m'
+                            expiresIn : '15d'
                         });
                         res.status(200).send({
-                            status: message.ok,
-                            message: 'Authorized Token',
+                            status: 200,
+                            message: successResponse.LOGIN,
                             data: token
                         });
                     }
                     else {
-                        console.log(error);
-                        res.status(400).send({
-                            message: Invalid.password
+                        next({
+                            message: Invalid.password,
+                            code: 400,
                         });
                     }
                 });
             }
         }
         catch (err) {
-            res.status(400).send( {
-                message: message.badRequest
+            next({
+                code: 503,
+                message: DatabaseMongo.maintainceBreak,
             });
         }
     }
     me(req: Request, res: Response, next: NextFunction) {
-        console.log(Inside.me);
-        const data = res.locals.val;
+        console.log(InsideRoute.ME);
+        const userDetails = res.locals.val;
         res.status(200).send({
-            status: message.ok,
-            message: 'Me',
-            Data: data
+            status: 200,
+            message: successResponse.USER_DETAILS,
+            data: userDetails
         });
     }
 }
