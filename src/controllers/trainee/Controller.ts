@@ -58,27 +58,6 @@ class TraineeController {
                 const Userepository: UserRepository = new UserRepository();
                 const TotalCount = await Userepository.totalCount();
                 const data = await Userepository.getAll({[key]: value}, skip, limit, sortBy, sortOrder);
-                // if (data.length === 0) {
-                //     return res.status(200).send({
-                //         status: 200,
-                //         message: success.fetched,
-                //         data: {
-                //                 Page_Count: data.length,
-                //                 Total_Count: TotalCount,
-                //             }
-                //     });
-                // }
-                    // res.status(200).send({
-                    //     status: 200,
-                    //     message: success.fetched,
-                    //     data: [
-                    //         {
-                    //             Page_Count: data.length,
-                    //             Total_Count: TotalCount,
-                    //             records: data
-                    //         }
-                    //     ]
-                    // });
                     res.status(200).send({
                         status: 200,
                         message: successResponse.FETCHED,
@@ -105,12 +84,6 @@ class TraineeController {
     }
     public async create(req: Request, res: Response, next: NextFunction) {
         try {
-            // console.log(Inside.create);
-            // console.log(req.body.password);
-            // const hash = await bcrypt.hash(req.body.password, 10);
-            // req.body.password = hash;
-            // const usercreate = new UserRepository();
-            // const createdTrainee = await usercreate.createV(req.body);
             console.log(InsideRoute.CREATE);
             console.log(req.body.password);
             const userrepository = new UserRepository();
