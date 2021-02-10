@@ -179,11 +179,13 @@ class TraineeController {
                 res.status(200).send({
                     status: 200,
                     message: successResponse.UPDATED,
-                    data: [
-                        {
-                            Id: req.body.originalId
+                    data: {
+                            originalId: Updateduser.originalId,
+                            name: Updateduser.name,
+                            email: Updateduser.email,
+                            role: Updateduser.role,
+                            createdAt: Updateduser.createdAt
                         }
-                    ],
                 });
             }
         }
