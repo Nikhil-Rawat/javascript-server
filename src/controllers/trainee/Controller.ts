@@ -1,5 +1,5 @@
 import { Response, Request, NextFunction } from 'express';
-import { message, Invalid, Inside, success } from '../../libs/constant';
+import { message, Invalid, InsideRoute, successResponse, DatabaseMongo } from '../../libs/constant';
 import UserRepository from '../../repositories/user/UserRepository';
 import * as bcrypt from 'bcrypt';
 
@@ -15,7 +15,7 @@ class TraineeController {
     }
     public async read(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log(Inside.getall);
+            console.log(InsideRoute.GET_ALL);
             const Skip = res.locals.skip;
             const skip = parseInt(Skip.toString(), 10);
 
@@ -56,122 +56,143 @@ class TraineeController {
             const sortOrder = parseInt(SortOrder.toString(), 10);
             if (sortBy === '_id' || sortBy === 'name' || sortBy === 'email') {
                 const Userepository: UserRepository = new UserRepository();
-                const data = await Userepository.getAll({[key]: value}, skip, limit, sortBy, sortOrder);
-                if (data.length === 0) {
-                    res.status(400).send ({
-                        message: `Invalid ${key}`
-                    });
-                }
                 const TotalCount = await Userepository.totalCount();
+                const data = await Userepository.getAll({[key]: value}, skip, limit, sortBy, sortOrder);
                     res.status(200).send({
-                        status: message.ok,
-                        message: success.fetched,
-                        data: [
-                            {
+                        status: 200,
+                        message: successResponse.FETCHED,
+                        data: {
                                 Page_Count: data.length,
                                 Total_Count: TotalCount,
                                 records: data
                             }
-                        ]
                     });
             }
             else {
-                res.status(400).send( {
+                next({
+                    code: 400,
                     message: Invalid.sortBy
                 });
             }
         }
         catch (err) {
-            res.status(400).send( {
-                message: message.badRequest
+            next({
+                code: 503,
+                message: DatabaseMongo.maintainceBreak
             });
         }
     }
     public async create(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log(Inside.create);
-            const hash = await bcrypt.hash(req.body.password, 10);
-            req.body.password = hash;
-            const usercreate = new UserRepository();
-            const createdTrainee = await usercreate.createV(req.body);
-            if (createdTrainee === null) {
-                res.status(400).send ( {
-                    message: message.failed
+            console.log(InsideRoute.CREATE);
+            console.log(req.body.password);
+            const userrepository = new UserRepository();
+            const docs = await userrepository.findOne({email: req.body.email});
+            if (docs) {
+                next({
+                    code: 401,
+                    message: 'Email Already Exist'
                 });
-            }
-            else {
-                res.status(200).send({
-                    status: 'Ok',
-                    message: success.created,
-                    data: {
-                        name: req.body.name,
-                        email: req.body.email,
-                        role: req.body.role
-                    }
-                });
+            } else {
+                const hash = await bcrypt.hash(req.body.password, 10);
+                req.body.password = hash;
+                const usercreate = new UserRepository();
+                const createdTrainee = await usercreate.createV(req.body);
+                if (createdTrainee === null) {
+                    next({
+                        code: 400,
+                        message: message.failed
+                    });
+                }
+                else {
+                    res.status(200).send({
+                        status: 200,
+                        message: successResponse.CREATED,
+                        data: {
+                            name: createdTrainee.name,
+                            email: createdTrainee.email,
+                            role: createdTrainee.role,
+                            originalId: createdTrainee.originalId,
+                            createdAt: createdTrainee.createdAt
+                        }
+                    });
+                }
             }
         }
         catch (err) {
-            res.status(400).send( {
-                message: message.failed
+            next({
+                code: 503,
+                message: DatabaseMongo.maintainceBreak
             });
         }
     }
     public async delete(req: Request, res: Response, next: NextFunction ) {
         try {
-            console.log(Inside.delete);
+            console.log(InsideRoute.DELETE);
             const userRepository: UserRepository = new UserRepository();
-            const userdeleted = await userRepository.delete(req.body.originalId, req.body.deletedBy);
+            const userdeleted = await userRepository.delete(req.params.id, req.body.deletedBy);
+
             if (!userdeleted) {
-                res.status(400).send({
-                    Message: Invalid.id
+                next({
+                    code: 400,
+                    message: Invalid.id
                 });
             }
             else {
                 res.status(200).send({
-                    status: message.ok,
-                    message: success.deleted,
-                    data: {
-                            originalId: req.body.originalId,
-                            deletedBy: req.body.deletedBy
-                        }
+                    status: 200,
+                    message: successResponse.DELETED
                 });
             }
         } catch (err) {
-            res.status(400).send( {
-                message: message.failed
+            next({
+                code: 503,
+                message: DatabaseMongo.maintainceBreak
             });
         }
     }
     public async update(req: Request, res: Response, next: NextFunction ) {
         try {
-            console.log(Inside.update);
+            console.log(InsideRoute.UPDATE);
             if (req.body.password) {
-                const hash = await bcrypt.hash(req.body.password, 10);
-                req.body.password = hash;
+                req.body.password = await bcrypt.hash(req.body.password, 10);
+            }
+            if (req.body.email) {
+                const userrepository = new UserRepository();
+                const docs = await userrepository.findOne({email: req.body.email});
+                if (docs && !(docs.originalId === req.body.originalId)) {
+                    return next({
+                        code: 401,
+                        message: 'Email Already Exist'
+                    });
+                }
             }
             const userRepository = new UserRepository();
             const Updateduser = await userRepository.userUpdate(req.body);
             if (!Updateduser) {
-                res.status(400).send({
-                    Message: Invalid.id
+                next({
+                    code: 400,
+                    message: Invalid.id
                 });
             }
             else {
                 res.status(200).send({
-                    status: message.ok,
-                    message: success.updated,
-                    data: [
-                        {
-                            Id: req.body.originalId
+                    status: 200,
+                    message: successResponse.UPDATED,
+                    data: {
+                            originalId: Updateduser.originalId,
+                            name: Updateduser.name,
+                            email: Updateduser.email,
+                            role: Updateduser.role,
+                            createdAt: Updateduser.createdAt
                         }
-                    ],
                 });
             }
         }
         catch (err) {
-            res.status(400).send({
-                message: message.badRequest
+            next({
+                code: 503,
+                message: DatabaseMongo.maintainceBreak
             });
         }
     }

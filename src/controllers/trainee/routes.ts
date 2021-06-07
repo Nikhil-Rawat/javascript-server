@@ -10,7 +10,7 @@ const traineeRouter = Router();
 traineeRouter.route('/create')
     .post(validationHandler(config.post), authMiddleWare('getUsers', 'write'), TraineeController.create);
 
-traineeRouter.route('/delete')
+traineeRouter.route('/delete/:id')
     .delete(validationHandler(config.delete), authMiddleWare('getUsers', 'deleTe'), TraineeController.delete);
 
 traineeRouter.route('/update')

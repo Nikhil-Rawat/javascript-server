@@ -29,6 +29,13 @@ export default () => {
                             password: hash,
                             createdBy: 'Admin'
                         });
+                        userRepository.createV({
+                            name: 'Nikhil',
+                            role: 'head-trainer',
+                            email: 'nikhil.rawat@successive.tech',
+                            password: hash,
+                            createdBy: 'Admin'
+                        });
 
                     }
                     console.log(dataSeeding.seeded);
